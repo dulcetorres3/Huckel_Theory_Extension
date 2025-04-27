@@ -1,0 +1,3 @@
+/repo/build/CMakeFiles/extended_huckel.dir
+/repo/build/CMakeFiles/edit_cache.dir
+/repo/build/CMakeFiles/rebuild_cache.dir

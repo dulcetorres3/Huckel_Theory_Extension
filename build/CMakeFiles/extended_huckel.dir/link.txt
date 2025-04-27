@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/extended_huckel.dir/src/main.cpp.o -o extended_huckel  /usr/lib/libarmadillo.so 
