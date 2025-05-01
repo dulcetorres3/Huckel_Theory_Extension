@@ -15,6 +15,8 @@ struct atomic_orbital
     std::string orbital_type;
     double atomic_number;
     arma::vec coordinates;
+    arma::vec p_direction; //  for p orbitals
+
 
 };
 
@@ -65,6 +67,8 @@ std::vector<atomic_orbital> create_atomic_orbitals(int atom_id, std::string atom
     return atomic_orbitals;
 }
 
+
+
 std::vector<bond> get_bond_vector(std::vector<double> aid1, std::vector<double> aid2, std::vector<double> bond_order, double atom_id)
 {
     std::vector<bond> my_bonds;
@@ -90,6 +94,8 @@ std::vector<bond> get_bond_vector(std::vector<double> aid1, std::vector<double> 
     }
     return my_bonds;
 }
+
+
 
 class Extended_Huckel
 {
@@ -148,57 +154,139 @@ class Extended_Huckel
                 }
             }
         }
-
+    
         N = atomic_orbitals.size();
+}
 
 
-    }
 
-    /*
-    double two_center_off_diagonal(atomic_orbital u, atomic_orbital v)
+
+
+
+
+
+
+
+/**
+ * @brief Constructs the Extended Hückel Hamiltonian matrix H (N x N) using the MTB/2 method.
+ * 
+ * The diagonal elements are assigned from the empirical atomic parameters table (onsite energies).
+ * The off-diagonal elements between bonded orbitals are calculated using Voityuk's MTB/2 formula:
+ * 
+ *     H_{μν} = β * sqrt(R_AB / a₀) * exp(-λ * (R_AB / a₀)^2)
+ * 
+ * where β and λ are empirical parameters specific to the atom pair and orbital interaction type.
+ * 
+ * @return arma::mat - the NxN Hamiltonian matrix for the molecular system.
+ */
+
+ 
+arma::mat H_matrix()
+{
+    arma::mat H(N, N, arma::fill::zeros);
+
+
+    for (int mu = 0; mu < N; mu++)
     {
+        atomic_orbital mu_orbital = atomic_orbitals[mu];
+        double mu_atom_id = mu_orbital.atom_id;
 
-    }
-    arma::mat H_matrix()
-    {
-        arma::mat H(N,N);
-
-        for(int u=0; u < N; u++)
+        for (int nu = 0; nu < N; nu++)
         {
-            atomic_orbital u_orbital = atomic_orbitals[u];
-            int u_atom_id = u_orbital.atom_id;
-            for(int v=0; v < N; v++)
+            atomic_orbital nu_orbital = atomic_orbitals[nu];
+            double nu_atom_id = nu_orbital.atom_id;
+
+
+            // get the diagonal term form the atomic_parameters dictionary for H and C
+            if (mu == nu)
+{
+    std::string atom = mu_orbital.atom;
+    std::string orb = mu_orbital.orbital_type;
+
+    if (atomic_parameters.count(atom) && atomic_parameters[atom].count(orb))
+    {
+        H(mu, nu) = atomic_parameters[atom][orb];
+    }
+    else
+    {
+        H(mu, nu) = 0.0; //if the onsite energy atomic paramter is missing
+    }
+    continue;
+}
+
+// for off diag, if s-p or p-p are on the same atom
+if (mu_atom_id == nu_atom_id)
+{
+    H(mu, nu) = 0.0;
+    continue;
+}
+
+//if atoms are not bonded
+if (!bonded_flag)
+{
+    //  non-bonded elements to zero 
+    H(mu, nu) = 0.0;
+    H(nu, mu) = 0.0;
+    continue;
+}
+
+//find the bond type and orbital interaction as ss, sp, pp_sigma, pp_pi
+            std::string atom1 = mu_orbital.atom;
+            std::string atom2 = nu_orbital.atom;
+            std::string bond_type = (atom1 < atom2) ? atom1 + atom2 : atom2 + atom1;
+
+            std::string orb1 = mu_orbital.orbital_type;
+            std::string orb2 = nu_orbital.orbital_type;
+            std::string orbital_interaction;
+
+            if (orb1 == "s" && orb2 == "s")
             {
-                double uv;
-                atomic_orbital v_orbital = atomic_orbitals[v];
-                int v_atom_id = v_orbital.atom_id;
+                orbital_interaction = "ss";
+            }
+            else if ((orb1 == "s" && orb2 == "p") || (orb1 == "p" && orb2 == "s"))
+            {
+                orbital_interaction = "sp";
+            }
+            else if (orb1 == "p" && orb2 == "p")
+            {
 
-                // diagonal terms
-                if(u==v)
+//NEED TO differentiate between pp sigma and pp pi...How??
                 {
-
+                    orbital_interaction = "pp_sigma";
                 }
                 else
                 {
-                    // one-center off diagonal terms
-                    if(u_atom_id==v_atom_id)
-                    {
-                        uv=0.0;
-                    }
-                    else // two-center off diagonal terms
-                    {
-
-                    }
+                    orbital_interaction = "pp_pi";
                 }
-
             }
+            else
+            {
+                continue; 
+            }
+
+            //get the beta and lambda parameters using the bond_type_parameters dictionary
+            auto bond_params = bond_type_parameters[bond_type][orbital_interaction];
+            double beta = bond_params.first;
+            double lambda = bond_params.second;
+
+            //solve using equation 5
+            arma::vec R_mu = mu_orbital.coordinates;
+            arma::vec R_nu = nu_orbital.coordinates;
+            double R_AB = arma::norm(R_mu - R_nu);
+
+            const double a0 = 0.52917;
+
+            double H_mu_nu = beta * std::sqrt(R_AB / a0) * std::exp(-lambda * std::pow(R_AB / a0, 2));
+
+            H(mu, nu) = H_mu_nu;
+            H(nu, mu) = H_mu_nu;
         }
-
-
     }
-*/
 
+    return H;
+}
 };
+
 
 std::vector<std::vector<double>> read_json(std::string filepath)
 {
