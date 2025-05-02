@@ -12,7 +12,12 @@ set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 # Add the executable
 add_executable(extended_huckel src/main.cpp)
 
-# Find Armadillo
+# Find Armadillo and json
 find_package(Armadillo REQUIRED)
+find_package(nlohmann_json 3.9.1 REQUIRED)
 #target_link_libraries(extended_huckel PUBLIC Armadillo::Armadillo)
-target_link_libraries(extended_huckel PUBLIC ${ARMADILLO_LIBRARIES})
+target_link_libraries(extended_huckel 
+PUBLIC 
+${ARMADILLO_LIBRARIES}
+nlohmann_json::nlohmann_json
+)

@@ -213,6 +213,9 @@ SimpleMPI_IS_TOP_LEVEL:STATIC=ON
 //Value Computed by CMake
 SimpleMPI_SOURCE_DIR:STATIC=/repo
 
+//The directory containing a CMake configuration file for nlohmann_json.
+nlohmann_json_DIR:PATH=/usr/lib/cmake/nlohmann_json
+
 
 ########################
 # INTERNAL cache entries
@@ -351,4 +354,6 @@ CMAKE_UNAME:INTERNAL=/usr/bin/uname
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
 //Details about finding Armadillo
 FIND_PACKAGE_MESSAGE_DETAILS_Armadillo:INTERNAL=[/usr/include][/usr/lib/libarmadillo.so][v10.8.2()]
+//Details about finding nlohmann_json
+FIND_PACKAGE_MESSAGE_DETAILS_nlohmann_json:INTERNAL=[/usr/lib/cmake/nlohmann_json/nlohmann_jsonConfig.cmake][v3.10.5(3.9.1)]
 

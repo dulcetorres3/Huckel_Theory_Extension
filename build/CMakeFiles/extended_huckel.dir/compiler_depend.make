@@ -3,7 +3,9 @@
 
 CMakeFiles/extended_huckel.dir/src/main.cpp.o: ../src/main.cpp \
   /usr/include/stdc-predef.h \
-  /usr/include/c++/11/iostream \
+  /usr/include/nlohmann/json.hpp \
+  /usr/include/c++/11/algorithm \
+  /usr/include/c++/11/utility \
   /usr/include/aarch64-linux-gnu/c++/11/bits/c++config.h \
   /usr/include/aarch64-linux-gnu/c++/11/bits/os_defines.h \
   /usr/include/features.h \
@@ -15,45 +17,17 @@ CMakeFiles/extended_huckel.dir/src/main.cpp.o: ../src/main.cpp \
   /usr/include/aarch64-linux-gnu/gnu/stubs.h \
   /usr/include/aarch64-linux-gnu/gnu/stubs-lp64.h \
   /usr/include/aarch64-linux-gnu/c++/11/bits/cpu_defines.h \
-  /usr/include/c++/11/ostream \
-  /usr/include/c++/11/ios \
-  /usr/include/c++/11/iosfwd \
-  /usr/include/c++/11/bits/stringfwd.h \
-  /usr/include/c++/11/bits/memoryfwd.h \
-  /usr/include/c++/11/bits/postypes.h \
-  /usr/include/c++/11/cwchar \
-  /usr/include/wchar.h \
-  /usr/include/aarch64-linux-gnu/bits/libc-header-start.h \
-  /usr/include/aarch64-linux-gnu/bits/floatn.h \
-  /usr/include/aarch64-linux-gnu/bits/floatn-common.h \
-  /usr/lib/gcc/aarch64-linux-gnu/11/include/stddef.h \
-  /usr/lib/gcc/aarch64-linux-gnu/11/include/stdarg.h \
-  /usr/include/aarch64-linux-gnu/bits/wchar.h \
-  /usr/include/aarch64-linux-gnu/bits/types/wint_t.h \
-  /usr/include/aarch64-linux-gnu/bits/types/mbstate_t.h \
-  /usr/include/aarch64-linux-gnu/bits/types/__mbstate_t.h \
-  /usr/include/aarch64-linux-gnu/bits/types/__FILE.h \
-  /usr/include/aarch64-linux-gnu/bits/types/FILE.h \
-  /usr/include/aarch64-linux-gnu/bits/types/locale_t.h \
-  /usr/include/aarch64-linux-gnu/bits/types/__locale_t.h \
-  /usr/include/c++/11/exception \
-  /usr/include/c++/11/bits/exception.h \
-  /usr/include/c++/11/bits/exception_ptr.h \
-  /usr/include/c++/11/bits/exception_defines.h \
-  /usr/include/c++/11/bits/cxxabi_init_exception.h \
-  /usr/include/c++/11/typeinfo \
-  /usr/include/c++/11/bits/hash_bytes.h \
-  /usr/include/c++/11/new \
+  /usr/include/c++/11/bits/stl_relops.h \
+  /usr/include/c++/11/bits/stl_pair.h \
   /usr/include/c++/11/bits/move.h \
   /usr/include/c++/11/type_traits \
-  /usr/include/c++/11/bits/nested_exception.h \
-  /usr/include/c++/11/bits/char_traits.h \
+  /usr/include/c++/11/initializer_list \
   /usr/include/c++/11/bits/stl_algobase.h \
   /usr/include/c++/11/bits/functexcept.h \
+  /usr/include/c++/11/bits/exception_defines.h \
   /usr/include/c++/11/bits/cpp_type_traits.h \
   /usr/include/c++/11/ext/type_traits.h \
   /usr/include/c++/11/ext/numeric_traits.h \
-  /usr/include/c++/11/bits/stl_pair.h \
   /usr/include/c++/11/bits/stl_iterator_base_types.h \
   /usr/include/c++/11/bits/stl_iterator_base_funcs.h \
   /usr/include/c++/11/bits/concept_check.h \
@@ -62,14 +36,84 @@ CMakeFiles/extended_huckel.dir/src/main.cpp.o: ../src/main.cpp \
   /usr/include/c++/11/bits/ptr_traits.h \
   /usr/include/c++/11/debug/debug.h \
   /usr/include/c++/11/bits/predefined_ops.h \
-  /usr/include/c++/11/cstdint \
-  /usr/lib/gcc/aarch64-linux-gnu/11/include/stdint.h \
-  /usr/include/stdint.h \
+  /usr/include/c++/11/bits/stl_algo.h \
+  /usr/include/c++/11/cstdlib \
+  /usr/include/stdlib.h \
+  /usr/include/aarch64-linux-gnu/bits/libc-header-start.h \
+  /usr/lib/gcc/aarch64-linux-gnu/11/include/stddef.h \
+  /usr/include/aarch64-linux-gnu/bits/waitflags.h \
+  /usr/include/aarch64-linux-gnu/bits/waitstatus.h \
+  /usr/include/aarch64-linux-gnu/bits/floatn.h \
+  /usr/include/aarch64-linux-gnu/bits/floatn-common.h \
+  /usr/include/aarch64-linux-gnu/bits/types/locale_t.h \
+  /usr/include/aarch64-linux-gnu/bits/types/__locale_t.h \
+  /usr/include/aarch64-linux-gnu/sys/types.h \
   /usr/include/aarch64-linux-gnu/bits/types.h \
   /usr/include/aarch64-linux-gnu/bits/typesizes.h \
   /usr/include/aarch64-linux-gnu/bits/time64.h \
+  /usr/include/aarch64-linux-gnu/bits/types/clock_t.h \
+  /usr/include/aarch64-linux-gnu/bits/types/clockid_t.h \
+  /usr/include/aarch64-linux-gnu/bits/types/time_t.h \
+  /usr/include/aarch64-linux-gnu/bits/types/timer_t.h \
   /usr/include/aarch64-linux-gnu/bits/stdint-intn.h \
-  /usr/include/aarch64-linux-gnu/bits/stdint-uintn.h \
+  /usr/include/endian.h \
+  /usr/include/aarch64-linux-gnu/bits/endian.h \
+  /usr/include/aarch64-linux-gnu/bits/endianness.h \
+  /usr/include/aarch64-linux-gnu/bits/byteswap.h \
+  /usr/include/aarch64-linux-gnu/bits/uintn-identity.h \
+  /usr/include/aarch64-linux-gnu/sys/select.h \
+  /usr/include/aarch64-linux-gnu/bits/select.h \
+  /usr/include/aarch64-linux-gnu/bits/types/sigset_t.h \
+  /usr/include/aarch64-linux-gnu/bits/types/__sigset_t.h \
+  /usr/include/aarch64-linux-gnu/bits/types/struct_timeval.h \
+  /usr/include/aarch64-linux-gnu/bits/types/struct_timespec.h \
+  /usr/include/aarch64-linux-gnu/bits/pthreadtypes.h \
+  /usr/include/aarch64-linux-gnu/bits/thread-shared-types.h \
+  /usr/include/aarch64-linux-gnu/bits/pthreadtypes-arch.h \
+  /usr/include/aarch64-linux-gnu/bits/atomic_wide_counter.h \
+  /usr/include/aarch64-linux-gnu/bits/struct_mutex.h \
+  /usr/include/aarch64-linux-gnu/bits/struct_rwlock.h \
+  /usr/include/alloca.h \
+  /usr/include/aarch64-linux-gnu/bits/stdlib-float.h \
+  /usr/include/c++/11/bits/std_abs.h \
+  /usr/include/c++/11/bits/algorithmfwd.h \
+  /usr/include/c++/11/bits/stl_heap.h \
+  /usr/include/c++/11/bits/stl_tempbuf.h \
+  /usr/include/c++/11/bits/stl_construct.h \
+  /usr/include/c++/11/new \
+  /usr/include/c++/11/bits/exception.h \
+  /usr/include/c++/11/bits/uniform_int_dist.h \
+  /usr/include/c++/11/cstddef \
+  /usr/include/c++/11/functional \
+  /usr/include/c++/11/bits/stl_function.h \
+  /usr/include/c++/11/backward/binders.h \
+  /usr/include/c++/11/tuple \
+  /usr/include/c++/11/array \
+  /usr/include/c++/11/bits/range_access.h \
+  /usr/include/c++/11/bits/uses_allocator.h \
+  /usr/include/c++/11/bits/invoke.h \
+  /usr/include/c++/11/bits/functional_hash.h \
+  /usr/include/c++/11/bits/hash_bytes.h \
+  /usr/include/c++/11/bits/refwrap.h \
+  /usr/include/c++/11/bits/std_function.h \
+  /usr/include/c++/11/typeinfo \
+  /usr/include/c++/11/iosfwd \
+  /usr/include/c++/11/bits/stringfwd.h \
+  /usr/include/c++/11/bits/memoryfwd.h \
+  /usr/include/c++/11/bits/postypes.h \
+  /usr/include/c++/11/cwchar \
+  /usr/include/wchar.h \
+  /usr/lib/gcc/aarch64-linux-gnu/11/include/stdarg.h \
+  /usr/include/aarch64-linux-gnu/bits/wchar.h \
+  /usr/include/aarch64-linux-gnu/bits/types/wint_t.h \
+  /usr/include/aarch64-linux-gnu/bits/types/mbstate_t.h \
+  /usr/include/aarch64-linux-gnu/bits/types/__mbstate_t.h \
+  /usr/include/aarch64-linux-gnu/bits/types/__FILE.h \
+  /usr/include/aarch64-linux-gnu/bits/types/FILE.h \
+  /usr/include/c++/11/iterator \
+  /usr/include/c++/11/bits/stream_iterator.h \
+  /usr/include/c++/11/bits/streambuf_iterator.h \
+  /usr/include/c++/11/streambuf \
   /usr/include/c++/11/bits/localefwd.h \
   /usr/include/aarch64-linux-gnu/c++/11/bits/c++locale.h \
   /usr/include/c++/11/clocale \
@@ -77,70 +121,41 @@ CMakeFiles/extended_huckel.dir/src/main.cpp.o: ../src/main.cpp \
   /usr/include/aarch64-linux-gnu/bits/locale.h \
   /usr/include/c++/11/cctype \
   /usr/include/ctype.h \
-  /usr/include/aarch64-linux-gnu/bits/endian.h \
-  /usr/include/aarch64-linux-gnu/bits/endianness.h \
   /usr/include/c++/11/bits/ios_base.h \
   /usr/include/c++/11/ext/atomicity.h \
   /usr/include/aarch64-linux-gnu/c++/11/bits/gthr.h \
   /usr/include/aarch64-linux-gnu/c++/11/bits/gthr-default.h \
   /usr/include/pthread.h \
   /usr/include/sched.h \
-  /usr/include/aarch64-linux-gnu/bits/types/time_t.h \
-  /usr/include/aarch64-linux-gnu/bits/types/struct_timespec.h \
   /usr/include/aarch64-linux-gnu/bits/sched.h \
   /usr/include/aarch64-linux-gnu/bits/types/struct_sched_param.h \
   /usr/include/aarch64-linux-gnu/bits/cpu-set.h \
   /usr/include/time.h \
   /usr/include/aarch64-linux-gnu/bits/time.h \
   /usr/include/aarch64-linux-gnu/bits/timex.h \
-  /usr/include/aarch64-linux-gnu/bits/types/struct_timeval.h \
-  /usr/include/aarch64-linux-gnu/bits/types/clock_t.h \
   /usr/include/aarch64-linux-gnu/bits/types/struct_tm.h \
-  /usr/include/aarch64-linux-gnu/bits/types/clockid_t.h \
-  /usr/include/aarch64-linux-gnu/bits/types/timer_t.h \
   /usr/include/aarch64-linux-gnu/bits/types/struct_itimerspec.h \
-  /usr/include/aarch64-linux-gnu/bits/pthreadtypes.h \
-  /usr/include/aarch64-linux-gnu/bits/thread-shared-types.h \
-  /usr/include/aarch64-linux-gnu/bits/pthreadtypes-arch.h \
-  /usr/include/aarch64-linux-gnu/bits/atomic_wide_counter.h \
-  /usr/include/aarch64-linux-gnu/bits/struct_mutex.h \
-  /usr/include/aarch64-linux-gnu/bits/struct_rwlock.h \
   /usr/include/aarch64-linux-gnu/bits/setjmp.h \
-  /usr/include/aarch64-linux-gnu/bits/types/__sigset_t.h \
   /usr/include/aarch64-linux-gnu/bits/types/struct___jmp_buf_tag.h \
   /usr/include/aarch64-linux-gnu/bits/pthread_stack_min-dynamic.h \
   /usr/include/aarch64-linux-gnu/c++/11/bits/atomic_word.h \
   /usr/include/aarch64-linux-gnu/sys/single_threaded.h \
   /usr/include/c++/11/bits/locale_classes.h \
   /usr/include/c++/11/string \
+  /usr/include/c++/11/bits/char_traits.h \
+  /usr/include/c++/11/cstdint \
+  /usr/lib/gcc/aarch64-linux-gnu/11/include/stdint.h \
+  /usr/include/stdint.h \
+  /usr/include/aarch64-linux-gnu/bits/stdint-uintn.h \
   /usr/include/c++/11/bits/allocator.h \
   /usr/include/aarch64-linux-gnu/c++/11/bits/c++allocator.h \
   /usr/include/c++/11/ext/new_allocator.h \
   /usr/include/c++/11/bits/ostream_insert.h \
   /usr/include/c++/11/bits/cxxabi_forced.h \
-  /usr/include/c++/11/bits/stl_function.h \
-  /usr/include/c++/11/backward/binders.h \
-  /usr/include/c++/11/bits/range_access.h \
-  /usr/include/c++/11/initializer_list \
   /usr/include/c++/11/bits/basic_string.h \
   /usr/include/c++/11/ext/alloc_traits.h \
   /usr/include/c++/11/bits/alloc_traits.h \
-  /usr/include/c++/11/bits/stl_construct.h \
   /usr/include/c++/11/ext/string_conversions.h \
-  /usr/include/c++/11/cstdlib \
-  /usr/include/stdlib.h \
-  /usr/include/aarch64-linux-gnu/bits/waitflags.h \
-  /usr/include/aarch64-linux-gnu/bits/waitstatus.h \
-  /usr/include/aarch64-linux-gnu/sys/types.h \
-  /usr/include/endian.h \
-  /usr/include/aarch64-linux-gnu/bits/byteswap.h \
-  /usr/include/aarch64-linux-gnu/bits/uintn-identity.h \
-  /usr/include/aarch64-linux-gnu/sys/select.h \
-  /usr/include/aarch64-linux-gnu/bits/select.h \
-  /usr/include/aarch64-linux-gnu/bits/types/sigset_t.h \
-  /usr/include/alloca.h \
-  /usr/include/aarch64-linux-gnu/bits/stdlib-float.h \
-  /usr/include/c++/11/bits/std_abs.h \
   /usr/include/c++/11/cstdio \
   /usr/include/stdio.h \
   /usr/include/aarch64-linux-gnu/bits/types/__fpos_t.h \
@@ -157,57 +172,18 @@ CMakeFiles/extended_huckel.dir/src/main.cpp.o: ../src/main.cpp \
   /usr/include/asm-generic/errno-base.h \
   /usr/include/aarch64-linux-gnu/bits/types/error_t.h \
   /usr/include/c++/11/bits/charconv.h \
-  /usr/include/c++/11/bits/functional_hash.h \
   /usr/include/c++/11/bits/basic_string.tcc \
   /usr/include/c++/11/bits/locale_classes.tcc \
   /usr/include/c++/11/system_error \
   /usr/include/aarch64-linux-gnu/c++/11/bits/error_constants.h \
   /usr/include/c++/11/stdexcept \
-  /usr/include/c++/11/streambuf \
+  /usr/include/c++/11/exception \
+  /usr/include/c++/11/bits/exception_ptr.h \
+  /usr/include/c++/11/bits/cxxabi_init_exception.h \
+  /usr/include/c++/11/bits/nested_exception.h \
   /usr/include/c++/11/bits/streambuf.tcc \
-  /usr/include/c++/11/bits/basic_ios.h \
-  /usr/include/c++/11/bits/locale_facets.h \
-  /usr/include/c++/11/cwctype \
-  /usr/include/wctype.h \
-  /usr/include/aarch64-linux-gnu/bits/wctype-wchar.h \
-  /usr/include/aarch64-linux-gnu/c++/11/bits/ctype_base.h \
-  /usr/include/c++/11/bits/streambuf_iterator.h \
-  /usr/include/aarch64-linux-gnu/c++/11/bits/ctype_inline.h \
-  /usr/include/c++/11/bits/locale_facets.tcc \
-  /usr/include/c++/11/bits/basic_ios.tcc \
-  /usr/include/c++/11/bits/ostream.tcc \
-  /usr/include/c++/11/istream \
-  /usr/include/c++/11/bits/istream.tcc \
-  /usr/include/c++/11/vector \
-  /usr/include/c++/11/bits/stl_uninitialized.h \
-  /usr/include/c++/11/bits/stl_vector.h \
-  /usr/include/c++/11/bits/stl_bvector.h \
-  /usr/include/c++/11/bits/vector.tcc \
-  /usr/include/c++/11/fstream \
-  /usr/include/c++/11/bits/codecvt.h \
-  /usr/include/aarch64-linux-gnu/c++/11/bits/basic_file.h \
-  /usr/include/aarch64-linux-gnu/c++/11/bits/c++io.h \
-  /usr/include/c++/11/bits/fstream.tcc \
-  /usr/include/nlohmann/json.hpp \
-  /usr/include/c++/11/algorithm \
-  /usr/include/c++/11/utility \
-  /usr/include/c++/11/bits/stl_relops.h \
-  /usr/include/c++/11/bits/stl_algo.h \
-  /usr/include/c++/11/bits/algorithmfwd.h \
-  /usr/include/c++/11/bits/stl_heap.h \
-  /usr/include/c++/11/bits/stl_tempbuf.h \
-  /usr/include/c++/11/bits/uniform_int_dist.h \
-  /usr/include/c++/11/cstddef \
-  /usr/include/c++/11/functional \
-  /usr/include/c++/11/tuple \
-  /usr/include/c++/11/array \
-  /usr/include/c++/11/bits/uses_allocator.h \
-  /usr/include/c++/11/bits/invoke.h \
-  /usr/include/c++/11/bits/refwrap.h \
-  /usr/include/c++/11/bits/std_function.h \
-  /usr/include/c++/11/iterator \
-  /usr/include/c++/11/bits/stream_iterator.h \
   /usr/include/c++/11/memory \
+  /usr/include/c++/11/bits/stl_uninitialized.h \
   /usr/include/c++/11/bits/stl_raw_storage_iter.h \
   /usr/include/c++/11/bits/align.h \
   /usr/include/c++/11/bit \
@@ -223,6 +199,10 @@ CMakeFiles/extended_huckel.dir/src/main.cpp.o: ../src/main.cpp \
   /usr/include/c++/11/backward/auto_ptr.h \
   /usr/include/c++/11/numeric \
   /usr/include/c++/11/bits/stl_numeric.h \
+  /usr/include/c++/11/vector \
+  /usr/include/c++/11/bits/stl_vector.h \
+  /usr/include/c++/11/bits/stl_bvector.h \
+  /usr/include/c++/11/bits/vector.tcc \
   /usr/include/nlohmann/adl_serializer.hpp \
   /usr/include/nlohmann/detail/conversions/from_json.hpp \
   /usr/include/c++/11/forward_list \
@@ -286,6 +266,20 @@ CMakeFiles/extended_huckel.dir/src/main.cpp.o: ../src/main.cpp \
   /usr/include/string.h \
   /usr/include/strings.h \
   /usr/include/nlohmann/detail/input/input_adapters.hpp \
+  /usr/include/c++/11/istream \
+  /usr/include/c++/11/ios \
+  /usr/include/c++/11/bits/basic_ios.h \
+  /usr/include/c++/11/bits/locale_facets.h \
+  /usr/include/c++/11/cwctype \
+  /usr/include/wctype.h \
+  /usr/include/aarch64-linux-gnu/bits/wctype-wchar.h \
+  /usr/include/aarch64-linux-gnu/c++/11/bits/ctype_base.h \
+  /usr/include/aarch64-linux-gnu/c++/11/bits/ctype_inline.h \
+  /usr/include/c++/11/bits/locale_facets.tcc \
+  /usr/include/c++/11/bits/basic_ios.tcc \
+  /usr/include/c++/11/ostream \
+  /usr/include/c++/11/bits/ostream.tcc \
+  /usr/include/c++/11/bits/istream.tcc \
   /usr/include/nlohmann/detail/input/json_sax.hpp \
   /usr/include/nlohmann/detail/input/lexer.hpp \
   /usr/include/nlohmann/detail/meta/is_sax.hpp \
@@ -306,6 +300,7 @@ CMakeFiles/extended_huckel.dir/src/main.cpp.o: ../src/main.cpp \
   /usr/include/aarch64-linux-gnu/c++/11/bits/time_members.h \
   /usr/include/aarch64-linux-gnu/c++/11/bits/messages_members.h \
   /usr/include/libintl.h \
+  /usr/include/c++/11/bits/codecvt.h \
   /usr/include/c++/11/bits/locale_facets_nonio.tcc \
   /usr/include/c++/11/bits/locale_conv.h \
   /usr/include/c++/11/sstream \
@@ -314,6 +309,11 @@ CMakeFiles/extended_huckel.dir/src/main.cpp.o: ../src/main.cpp \
   /usr/include/nlohmann/ordered_map.hpp \
   /usr/include/nlohmann/detail/macro_unscope.hpp \
   /usr/include/nlohmann/thirdparty/hedley/hedley_undef.hpp \
+  /usr/include/c++/11/iostream \
+  /usr/include/c++/11/fstream \
+  /usr/include/aarch64-linux-gnu/c++/11/bits/basic_file.h \
+  /usr/include/aarch64-linux-gnu/c++/11/bits/c++io.h \
+  /usr/include/c++/11/bits/fstream.tcc \
   /usr/include/armadillo \
   /usr/include/armadillo_bits/config.hpp \
   /usr/include/armadillo_bits/compiler_check.hpp \
@@ -1415,6 +1415,28 @@ CMakeFiles/extended_huckel.dir/src/main.cpp.o: ../src/main.cpp \
 
 /usr/include/armadillo_bits/glue_mvnrnd_bones.hpp:
 
+/usr/include/armadillo_bits/SizeCube_meat.hpp:
+
+/usr/include/nlohmann/detail/meta/call_std/end.hpp:
+
+/usr/include/nlohmann/detail/input/json_sax.hpp:
+
+/usr/include/nlohmann/detail/meta/identity_tag.hpp:
+
+/usr/include/armadillo_bits/fn_spones.hpp:
+
+/usr/include/armadillo_bits/compiler_setup.hpp:
+
+/usr/include/nlohmann/detail/macro_scope.hpp:
+
+/usr/include/aarch64-linux-gnu/bits/struct_rwlock.h:
+
+/usr/include/armadillo_bits/upgrade_val.hpp:
+
+/usr/include/armadillo_bits/fn_trace.hpp:
+
+/usr/include/nlohmann/detail/value_t.hpp:
+
 /usr/include/c++/11/bits/mask_array.h:
 
 /usr/include/aarch64-linux-gnu/bits/types/struct_itimerspec.h:
@@ -1429,11 +1451,17 @@ CMakeFiles/extended_huckel.dir/src/main.cpp.o: ../src/main.cpp \
 
 /usr/include/aarch64-linux-gnu/bits/typesizes.h:
 
+/usr/include/armadillo_bits/fn_inv.hpp:
+
+/usr/include/armadillo_bits/fn_accu.hpp:
+
+/usr/include/c++/11/bits/valarray_array.h:
+
+/usr/include/locale.h:
+
 /usr/include/armadillo_bits/spop_symmat_bones.hpp:
 
 /usr/include/aarch64-linux-gnu/bits/types/wint_t.h:
-
-/usr/include/locale.h:
 
 /usr/include/c++/11/valarray:
 
@@ -1465,6 +1493,10 @@ CMakeFiles/extended_huckel.dir/src/main.cpp.o: ../src/main.cpp \
 
 /usr/include/c++/11/bits/forward_list.h:
 
+/usr/include/nlohmann/detail/string_escape.hpp:
+
+/usr/include/nlohmann/detail/input/position_t.hpp:
+
 /usr/include/armadillo_bits/newarp_GenEigsSolver_meat.hpp:
 
 /usr/include/armadillo_bits/spglue_plus_meat.hpp:
@@ -1475,49 +1507,11 @@ CMakeFiles/extended_huckel.dir/src/main.cpp.o: ../src/main.cpp \
 
 /usr/include/armadillo_bits/op_symmat_bones.hpp:
 
-/usr/include/armadillo_bits/translate_blas.hpp:
+/usr/include/c++/11/vector:
 
-/usr/include/armadillo_bits/fn_kmeans.hpp:
+/usr/include/armadillo_bits/op_max_meat.hpp:
 
-/usr/include/armadillo_bits/op_shift_bones.hpp:
-
-/usr/include/c++/11/bits/refwrap.h:
-
-/usr/include/c++/11/bits/invoke.h:
-
-/usr/include/armadillo_bits/typedef_mat.hpp:
-
-/usr/include/armadillo_bits/fn_normalise.hpp:
-
-/usr/include/c++/11/bits/uses_allocator.h:
-
-/usr/include/c++/11/bits/unique_lock.h:
-
-/usr/include/armadillo_bits/fn_mvnrnd.hpp:
-
-/usr/include/c++/11/bits/stl_tempbuf.h:
-
-/usr/include/c++/11/bits/stl_heap.h:
-
-/usr/include/c++/11/bits/std_abs.h:
-
-/usr/include/aarch64-linux-gnu/bits/long-double.h:
-
-/usr/include/aarch64-linux-gnu/bits/posix1_lim.h:
-
-/usr/include/c++/11/bits/stl_algo.h:
-
-/usr/include/limits.h:
-
-/usr/include/armadillo_bits/op_sp_minus_bones.hpp:
-
-/usr/include/armadillo_bits/gmm_diag_meat.hpp:
-
-/usr/include/nlohmann/json.hpp:
-
-/usr/include/c++/11/bits/fstream.tcc:
-
-/usr/include/nlohmann/detail/string_escape.hpp:
+/usr/include/c++/11/bits/align.h:
 
 /usr/include/armadillo_bits/Base_meat.hpp:
 
@@ -1531,61 +1525,25 @@ CMakeFiles/extended_huckel.dir/src/main.cpp.o: ../src/main.cpp \
 
 /usr/include/c++/11/bits/stl_uninitialized.h:
 
-/usr/include/armadillo_bits/op_max_meat.hpp:
+/usr/include/armadillo_bits/translate_blas.hpp:
 
-/usr/include/c++/11/bits/align.h:
+/usr/include/armadillo_bits/fn_kmeans.hpp:
 
-/usr/include/c++/11/vector:
+/usr/include/armadillo_bits/op_shift_bones.hpp:
 
-/usr/include/c++/11/bits/istream.tcc:
-
-/usr/include/c++/11/istream:
-
-/usr/include/armadillo_bits/fn_cross.hpp:
-
-/usr/include/aarch64-linux-gnu/c++/11/bits/ctype_inline.h:
-
-/usr/include/armadillo_bits/fn_histc.hpp:
-
-/usr/lib/gcc/aarch64-linux-gnu/11/include/stdarg.h:
-
-/usr/include/aarch64-linux-gnu/c++/11/bits/ctype_base.h:
-
-/usr/include/linux/errno.h:
-
-/usr/include/c++/11/functional:
-
-/usr/include/sched.h:
-
-/usr/include/armadillo_bits/fn_inv.hpp:
-
-/usr/include/armadillo_bits/fn_accu.hpp:
-
-/usr/include/c++/11/bits/valarray_array.h:
-
-/usr/include/c++/11/cwctype:
-
-/usr/include/aarch64-linux-gnu/c++/11/bits/atomic_word.h:
-
-/usr/include/c++/11/bits/locale_facets.h:
-
-/usr/include/c++/11/bits/basic_ios.h:
-
-/usr/include/c++/11/bits/uniform_int_dist.h:
+/usr/include/c++/11/bits/nested_exception.h:
 
 /usr/include/c++/11/stdexcept:
 
 /usr/include/aarch64-linux-gnu/c++/11/bits/error_constants.h:
 
-/usr/include/c++/11/bits/functional_hash.h:
+/usr/include/c++/11/bits/locale_conv.h:
 
 /usr/include/nlohmann/adl_serializer.hpp:
 
 /usr/include/c++/11/memory:
 
 /usr/include/armadillo_bits/op_reshape_bones.hpp:
-
-/usr/include/aarch64-linux-gnu/c++/11/bits/c++io.h:
 
 /usr/include/asm-generic/errno.h:
 
@@ -1601,25 +1559,17 @@ CMakeFiles/extended_huckel.dir/src/main.cpp.o: ../src/main.cpp \
 
 /usr/include/armadillo_bits/Cube_bones.hpp:
 
-/usr/include/c++/11/utility:
+/usr/include/linux/errno.h:
 
-/usr/include/armadillo_bits/fn_princomp.hpp:
+/usr/include/c++/11/functional:
 
-/usr/include/armadillo_bits/spglue_minus_bones.hpp:
-
-/usr/include/c++/11/ios:
+/usr/include/aarch64-linux-gnu/c++/11/bits/ctype_base.h:
 
 /usr/include/armadillo_bits/fn_conv_to.hpp:
 
 /usr/include/aarch64-linux-gnu/bits/stdio_lim.h:
 
-/usr/include/time.h:
-
-/usr/include/armadillo_bits/op_sum_bones.hpp:
-
-/usr/include/armadillo_bits/mtGlue_meat.hpp:
-
-/usr/include/aarch64-linux-gnu/c++/11/bits/basic_file.h:
+/usr/include/nlohmann/detail/meta/cpp_future.hpp:
 
 /usr/include/c++/11/bits/slice_array.h:
 
@@ -1627,69 +1577,43 @@ CMakeFiles/extended_huckel.dir/src/main.cpp.o: ../src/main.cpp \
 
 /usr/include/aarch64-linux-gnu/bits/types/__fpos_t.h:
 
-/usr/include/c++/11/bits/stl_raw_storage_iter.h:
+/usr/include/aarch64-linux-gnu/bits/libm-simd-decl-stubs.h:
 
-/usr/include/aarch64-linux-gnu/bits/types/sigset_t.h:
+/usr/include/c++/11/ext/string_conversions.h:
 
-/usr/include/armadillo_bits/subview_elem2_meat.hpp:
+/usr/include/aarch64-linux-gnu/bits/math-vector.h:
 
-/usr/include/armadillo_bits/arma_rng_cxx98.hpp:
+/usr/include/armadillo_bits/op_orth_null_meat.hpp:
 
-/usr/include/aarch64-linux-gnu/sys/select.h:
+/usr/include/aarch64-linux-gnu/gnu/stubs.h:
 
-/usr/include/armadillo_bits/op_strans_meat.hpp:
+/usr/include/string.h:
 
-/usr/include/armadillo_bits/mul_gemm.hpp:
+/usr/include/armadillo_bits/op_diff_bones.hpp:
 
-/usr/include/c++/11/bits/locale_classes.tcc:
+/usr/include/stdc-predef.h:
 
-/usr/include/c++/11/ext/aligned_buffer.h:
+/usr/include/c++/11/bits/basic_string.h:
 
-/usr/include/armadillo_bits/spop_var_meat.hpp:
+/usr/include/c++/11/bits/shared_ptr_base.h:
 
-/usr/include/armadillo_bits/translate_superlu.hpp:
+/usr/include/aarch64-linux-gnu/bits/types/struct_FILE.h:
 
-/usr/include/c++/11/bits/erase_if.h:
+/usr/include/linux/limits.h:
 
-/usr/include/c++/11/bits/shared_ptr.h:
+/usr/include/c++/11/ext/alloc_traits.h:
 
-/usr/include/c++/11/bits/stl_construct.h:
+/usr/include/c++/11/bits/ostream_insert.h:
 
-/usr/include/armadillo_bits/gmm_full_bones.hpp:
+/usr/include/c++/11/ext/new_allocator.h:
 
-/usr/include/armadillo_bits/arma_config.hpp:
+/usr/include/aarch64-linux-gnu/c++/11/bits/c++allocator.h:
 
-/usr/include/aarch64-linux-gnu/sys/types.h:
+/usr/include/c++/11/cstdio:
 
-/usr/include/aarch64-linux-gnu/bits/types/FILE.h:
+/usr/include/armadillo_bits/op_min_bones.hpp:
 
-/usr/include/aarch64-linux-gnu/bits/waitstatus.h:
-
-/usr/include/nlohmann/detail/iterators/json_reverse_iterator.hpp:
-
-/usr/include/armadillo_bits/op_dot_bones.hpp:
-
-/usr/include/armadillo_bits/fn_chi2rnd.hpp:
-
-/usr/include/armadillo_bits/fn_log_det.hpp:
-
-/usr/include/c++/11/chrono:
-
-/usr/include/armadillo_bits/fn_sprandu.hpp:
-
-/usr/include/aarch64-linux-gnu/bits/waitflags.h:
-
-/usr/include/armadillo_bits/fn_sylvester.hpp:
-
-/usr/include/stdlib.h:
-
-/usr/include/armadillo_bits/glue_quantile_meat.hpp:
-
-/usr/include/aarch64-linux-gnu/bits/types/locale_t.h:
-
-/usr/include/c++/11/bits/concept_check.h:
-
-/usr/include/armadillo_bits/def_lapack.hpp:
+/usr/include/aarch64-linux-gnu/bits/stdint-uintn.h:
 
 /usr/include/armadillo_bits/fn_eye.hpp:
 
@@ -1699,15 +1623,213 @@ CMakeFiles/extended_huckel.dir/src/main.cpp.o: ../src/main.cpp \
 
 /usr/include/armadillo_bits/def_atlas.hpp:
 
-/usr/include/aarch64-linux-gnu/bits/pthreadtypes.h:
+/usr/include/armadillo_bits/trimat_helper.hpp:
 
-/usr/include/c++/11/bits/nested_exception.h:
+/usr/include/c++/11/cstdint:
+
+/usr/include/armadillo_bits/op_orth_null_bones.hpp:
+
+/usr/include/c++/11/bits/locale_classes.h:
+
+/usr/include/aarch64-linux-gnu/sys/single_threaded.h:
+
+/usr/include/armadillo_bits/Col_meat.hpp:
+
+/usr/include/armadillo_bits/csv_name.hpp:
+
+/usr/include/armadillo_bits/spglue_join_bones.hpp:
+
+/usr/include/c++/11/bits/stl_bvector.h:
+
+/usr/include/c++/11/bits/valarray_before.h:
+
+/usr/include/armadillo_bits/fn_quantile.hpp:
+
+/usr/include/armadillo_bits/operator_div.hpp:
+
+/usr/include/armadillo_bits/op_strans_bones.hpp:
+
+/usr/include/aarch64-linux-gnu/c++/11/bits/atomic_word.h:
+
+/usr/include/c++/11/cwctype:
+
+/usr/include/armadillo_bits/glue_histc_meat.hpp:
+
+/usr/include/aarch64-linux-gnu/bits/types/struct___jmp_buf_tag.h:
 
 /usr/include/armadillo_bits/op_unique_meat.hpp:
 
 /usr/include/aarch64-linux-gnu/bits/iscanonical.h:
 
 /usr/include/c++/11/exception:
+
+/usr/include/armadillo_bits/spglue_times_meat.hpp:
+
+/usr/include/armadillo_bits/op_inv_bones.hpp:
+
+/usr/include/aarch64-linux-gnu/bits/types/struct_tm.h:
+
+/usr/include/armadillo_bits/fn_ones.hpp:
+
+/usr/include/aarch64-linux-gnu/bits/timex.h:
+
+/usr/lib/gcc/aarch64-linux-gnu/11/include/stdint.h:
+
+/usr/include/time.h:
+
+/usr/include/armadillo_bits/op_sum_bones.hpp:
+
+/usr/include/aarch64-linux-gnu/bits/cpu-set.h:
+
+/usr/include/aarch64-linux-gnu/bits/posix_opt.h:
+
+/usr/include/aarch64-linux-gnu/bits/types/mbstate_t.h:
+
+/usr/include/armadillo_bits/op_strans_meat.hpp:
+
+/usr/include/armadillo_bits/mul_gemm.hpp:
+
+/usr/include/c++/11/bits/locale_classes.tcc:
+
+/usr/include/c++/11/ext/aligned_buffer.h:
+
+/usr/include/armadillo_bits/spop_mean_bones.hpp:
+
+/usr/include/c++/11/iosfwd:
+
+/usr/include/armadillo_bits/fn_elem.hpp:
+
+/usr/include/c++/11/initializer_list:
+
+/usr/include/armadillo_bits/op_index_max_bones.hpp:
+
+/usr/include/armadillo_bits/op_stddev_meat.hpp:
+
+/usr/include/c++/11/cerrno:
+
+/usr/include/aarch64-linux-gnu/c++/11/bits/c++locale.h:
+
+/usr/include/aarch64-linux-gnu/bits/types/clock_t.h:
+
+/usr/include/armadillo_bits/glue_quantile_meat.hpp:
+
+/usr/include/aarch64-linux-gnu/bits/types/locale_t.h:
+
+/usr/include/armadillo_bits/spglue_schur_bones.hpp:
+
+/usr/include/aarch64-linux-gnu/c++/11/bits/os_defines.h:
+
+/usr/include/aarch64-linux-gnu/bits/types/__locale_t.h:
+
+/usr/include/aarch64-linux-gnu/bits/floatn.h:
+
+/usr/include/aarch64-linux-gnu/bits/mathcalls.h:
+
+/usr/include/armadillo_bits/fn_dot.hpp:
+
+/usr/include/armadillo_bits/glue_join_bones.hpp:
+
+/usr/include/armadillo_bits/op_index_min_meat.hpp:
+
+/usr/include/aarch64-linux-gnu/bits/floatn-common.h:
+
+/usr/include/c++/11/bits/hash_bytes.h:
+
+/usr/include/c++/11/bits/move.h:
+
+/usr/include/armadillo_bits/fn_histc.hpp:
+
+/usr/lib/gcc/aarch64-linux-gnu/11/include/stdarg.h:
+
+/usr/include/armadillo_bits/fn_cross.hpp:
+
+/usr/include/aarch64-linux-gnu/c++/11/bits/ctype_inline.h:
+
+/usr/include/aarch64-linux-gnu/bits/locale.h:
+
+/usr/include/armadillo_bits/xtrans_mat_meat.hpp:
+
+/usr/include/armadillo_bits/fn_as_scalar.hpp:
+
+/usr/include/c++/11/forward_list:
+
+/usr/include/armadillo_bits/fn_reverse.hpp:
+
+/usr/include/armadillo_bits/fn_repelem.hpp:
+
+/usr/include/aarch64-linux-gnu/bits/wchar.h:
+
+/usr/include/nlohmann/detail/output/output_adapters.hpp:
+
+/usr/include/armadillo_bits/op_diagmat_meat.hpp:
+
+/usr/include/c++/11/fstream:
+
+/usr/include/c++/11/bits/unique_ptr.h:
+
+/usr/include/c++/11/iterator:
+
+/usr/include/aarch64-linux-gnu/bits/endian.h:
+
+/usr/include/armadillo_bits/running_stat_vec_meat.hpp:
+
+/usr/include/c++/11/bits/gslice.h:
+
+/usr/include/c++/11/bits/stl_algo.h:
+
+/usr/include/aarch64-linux-gnu/bits/types/FILE.h:
+
+/usr/include/aarch64-linux-gnu/bits/waitstatus.h:
+
+/usr/include/nlohmann/detail/iterators/json_reverse_iterator.hpp:
+
+/usr/include/armadillo_bits/op_dot_bones.hpp:
+
+/usr/include/armadillo_bits/fn_sylvester.hpp:
+
+/usr/include/stdlib.h:
+
+/usr/include/armadillo_bits/op_find_unique_bones.hpp:
+
+/usr/include/c++/11/debug/assertions.h:
+
+/usr/include/c++/11/bits/concept_check.h:
+
+/usr/include/aarch64-linux-gnu/bits/long-double.h:
+
+/usr/include/c++/11/bits/std_abs.h:
+
+/usr/include/c++/11/bits/stl_heap.h:
+
+/usr/include/aarch64-linux-gnu/bits/posix1_lim.h:
+
+/usr/include/armadillo_bits/def_lapack.hpp:
+
+/usr/include/armadillo_bits/newarp_SparseGenMatProd_meat.hpp:
+
+/usr/include/c++/11/debug/debug.h:
+
+/usr/include/armadillo_bits/spop_normalise_meat.hpp:
+
+/usr/include/armadillo_bits/MapMat_bones.hpp:
+
+/usr/include/armadillo_bits/spglue_min_meat.hpp:
+
+/usr/include/aarch64-linux-gnu/bits/stdint-intn.h:
+
+/usr/include/aarch64-linux-gnu/bits/fp-logb.h:
+
+/usr/include/c++/11/array:
+
+/usr/include/aarch64-linux-gnu/bits/types/struct_sched_param.h:
+
+/usr/include/c++/11/clocale:
+
+/usr/include/aarch64-linux-gnu/bits/errno.h:
+
+/usr/include/armadillo_bits/spop_min_bones.hpp:
+
+/usr/include/nlohmann/detail/iterators/internal_iterator.hpp:
 
 /usr/include/c++/11/bits/stl_tree.h:
 
@@ -1723,251 +1845,17 @@ CMakeFiles/extended_huckel.dir/src/main.cpp.o: ../src/main.cpp \
 
 /usr/include/c++/11/type_traits:
 
-/usr/include/aarch64-linux-gnu/bits/errno.h:
-
-/usr/include/armadillo_bits/spop_min_bones.hpp:
-
-/usr/include/nlohmann/detail/iterators/internal_iterator.hpp:
-
-/usr/include/c++/11/bits/move.h:
-
-/usr/include/c++/11/bits/hash_bytes.h:
-
-/usr/include/armadillo_bits/running_stat_vec_meat.hpp:
-
-/usr/include/c++/11/bits/gslice.h:
-
-/usr/include/aarch64-linux-gnu/bits/endian.h:
-
-/usr/include/c++/11/bits/stl_iterator.h:
-
-/usr/include/c++/11/new:
-
-/usr/include/c++/11/climits:
-
-/usr/include/c++/11/typeinfo:
-
-/usr/include/armadillo_bits/fn_cumprod.hpp:
-
-/usr/include/aarch64-linux-gnu/bits/types/__fpos64_t.h:
-
-/usr/include/nlohmann/detail/iterators/primitive_iterator.hpp:
-
-/usr/include/aarch64-linux-gnu/bits/fp-fast.h:
-
-/usr/include/c++/11/bits/exception_defines.h:
-
-/usr/include/aarch64-linux-gnu/bits/types/__locale_t.h:
-
-/usr/include/armadillo_bits/fn_dot.hpp:
-
-/usr/include/armadillo_bits/glue_join_bones.hpp:
-
-/usr/include/armadillo_bits/op_index_min_meat.hpp:
-
-/usr/include/aarch64-linux-gnu/bits/floatn-common.h:
-
-/usr/include/aarch64-linux-gnu/bits/locale.h:
-
-/usr/include/armadillo_bits/fn_var.hpp:
-
-/usr/include/asm-generic/errno-base.h:
-
-/usr/include/aarch64-linux-gnu/gnu/stubs-lp64.h:
-
-/usr/include/aarch64-linux-gnu/bits/wordsize.h:
-
 /usr/include/c++/11/bits/stl_multimap.h:
 
 /usr/include/features.h:
 
-/usr/include/aarch64-linux-gnu/bits/cpu-set.h:
+/usr/include/c++/11/utility:
 
-/usr/include/aarch64-linux-gnu/bits/types/__FILE.h:
+/usr/include/armadillo_bits/fn_princomp.hpp:
 
-/usr/include/armadillo_bits/glue_intersect_bones.hpp:
+/usr/include/armadillo_bits/spglue_minus_bones.hpp:
 
-/usr/include/c++/11/bits/locale_classes.h:
-
-/usr/include/armadillo_bits/xtrans_mat_meat.hpp:
-
-/usr/include/armadillo_bits/fn_as_scalar.hpp:
-
-/usr/include/c++/11/forward_list:
-
-/usr/include/c++/11/bits/shared_ptr_base.h:
-
-/usr/include/c++/11/bits/basic_string.h:
-
-/usr/include/aarch64-linux-gnu/bits/types/struct_FILE.h:
-
-/usr/include/linux/limits.h:
-
-/usr/include/armadillo_bits/fn_reverse.hpp:
-
-/usr/include/armadillo_bits/fn_repelem.hpp:
-
-/usr/include/aarch64-linux-gnu/bits/wchar.h:
-
-/usr/include/armadillo_bits/op_diagmat_meat.hpp:
-
-/usr/include/c++/11/fstream:
-
-/usr/include/nlohmann/detail/output/output_adapters.hpp:
-
-/usr/include/c++/11/cwchar:
-
-/usr/include/c++/11/bits/stl_algobase.h:
-
-/usr/include/unistd.h:
-
-/usr/include/armadillo_bits/glue_min_bones.hpp:
-
-/usr/include/aarch64-linux-gnu/sys/single_threaded.h:
-
-/usr/include/armadillo_bits/Col_meat.hpp:
-
-/usr/include/armadillo_bits/csv_name.hpp:
-
-/usr/include/c++/11/bits/streambuf.tcc:
-
-/usr/include/c++/11/bits/stl_iterator_base_funcs.h:
-
-/usr/include/endian.h:
-
-/usr/include/c++/11/bits/cpp_type_traits.h:
-
-/usr/include/c++/11/ext/concurrence.h:
-
-/usr/include/armadillo_bits/distr_param.hpp:
-
-/usr/include/armadillo_bits/op_min_meat.hpp:
-
-/usr/include/c++/11/bits/stream_iterator.h:
-
-/usr/include/armadillo_bits/fn_schur.hpp:
-
-/usr/include/ctype.h:
-
-/usr/include/armadillo_bits/op_chi2rnd_meat.hpp:
-
-/usr/include/c++/11/locale:
-
-/usr/include/armadillo_bits/mtGlueCube_bones.hpp:
-
-/usr/include/armadillo_bits/op_nonzeros_bones.hpp:
-
-/usr/include/c++/11/ext/new_allocator.h:
-
-/usr/include/armadillo_bits/spglue_schur_bones.hpp:
-
-/usr/include/aarch64-linux-gnu/c++/11/bits/os_defines.h:
-
-/usr/include/armadillo_bits/fn_svds.hpp:
-
-/usr/include/aarch64-linux-gnu/c++/11/bits/cpu_defines.h:
-
-/usr/include/armadillo_bits/newarp_SparseGenMatProd_meat.hpp:
-
-/usr/include/c++/11/debug/debug.h:
-
-/usr/include/armadillo_bits/spop_normalise_meat.hpp:
-
-/usr/include/armadillo_bits/MapMat_bones.hpp:
-
-/usr/include/c++/11/bits/postypes.h:
-
-/usr/include/armadillo_bits/glue_affmul_meat.hpp:
-
-/usr/include/math.h:
-
-/usr/include/c++/11/bits/charconv.h:
-
-/usr/include/c++/11/bits/exception_ptr.h:
-
-/usr/include/aarch64-linux-gnu/bits/libm-simd-decl-stubs.h:
-
-/usr/include/c++/11/ext/string_conversions.h:
-
-/usr/lib/gcc/aarch64-linux-gnu/11/include/stddef.h:
-
-/usr/include/armadillo_bits/mtGlue_bones.hpp:
-
-/usr/include/armadillo_bits/op_cx_scalar_bones.hpp:
-
-/usr/include/c++/11/bits/vector.tcc:
-
-/usr/include/aarch64-linux-gnu/bits/types/__mbstate_t.h:
-
-/usr/include/c++/11/bits/stl_pair.h:
-
-/usr/include/armadillo_bits/arma_rng_cxx11.hpp:
-
-/usr/include/armadillo_bits/fn_cond.hpp:
-
-/usr/include/armadillo_bits/op_prod_bones.hpp:
-
-/usr/include/c++/11/bits/unique_ptr.h:
-
-/usr/include/c++/11/iterator:
-
-/usr/include/armadillo_bits/newarp_UpperHessenbergQR_meat.hpp:
-
-/usr/include/armadillo_bits/eGlueCube_bones.hpp:
-
-/usr/include/c++/11/bits/ostream_insert.h:
-
-/usr/include/armadillo_bits/spglue_times_meat.hpp:
-
-/usr/include/aarch64-linux-gnu/bits/types/struct_tm.h:
-
-/usr/include/armadillo_bits/op_inv_bones.hpp:
-
-/usr/include/c++/11/ext/atomicity.h:
-
-/usr/include/armadillo_bits/diagmat_proxy.hpp:
-
-/usr/include/armadillo_bits/op_dotext_bones.hpp:
-
-/usr/include/c++/11/bits/stl_function.h:
-
-/usr/include/armadillo_bits/fn_polyval.hpp:
-
-/usr/include/c++/11/bits/memoryfwd.h:
-
-/usr/include/stdc-predef.h:
-
-../src/main.cpp:
-
-/usr/include/armadillo_bits/fn_expmat.hpp:
-
-/usr/include/pthread.h:
-
-/usr/include/armadillo_bits/spop_mean_bones.hpp:
-
-/usr/include/c++/11/iosfwd:
-
-/usr/include/armadillo_bits/fn_elem.hpp:
-
-/usr/include/c++/11/initializer_list:
-
-/usr/include/armadillo_bits/op_index_max_bones.hpp:
-
-/usr/include/armadillo_bits/op_orth_null_meat.hpp:
-
-/usr/include/aarch64-linux-gnu/gnu/stubs.h:
-
-/usr/include/aarch64-linux-gnu/bits/math-vector.h:
-
-/usr/include/string.h:
-
-/usr/include/armadillo_bits/op_diff_bones.hpp:
-
-/usr/include/armadillo_bits/spglue_min_meat.hpp:
-
-/usr/include/aarch64-linux-gnu/bits/stdint-intn.h:
-
-/usr/include/aarch64-linux-gnu/bits/fp-logb.h:
+/usr/include/c++/11/ios:
 
 /usr/include/c++/11/cstddef:
 
@@ -1983,121 +1871,47 @@ CMakeFiles/extended_huckel.dir/src/main.cpp.o: ../src/main.cpp \
 
 /usr/include/c++/11/system_error:
 
-/usr/include/nlohmann/ordered_map.hpp:
-
-/usr/include/armadillo_bits/access.hpp:
-
 /usr/include/armadillo_bits/translate_arpack.hpp:
 
 /usr/include/armadillo_bits/op_flip_bones.hpp:
 
-/usr/include/c++/11/bits/stringfwd.h:
+/usr/include/aarch64-linux-gnu/bits/wordsize.h:
 
-/usr/include/armadillo_bits/glue_hypot_bones.hpp:
+/usr/include/aarch64-linux-gnu/gnu/stubs-lp64.h:
 
-/usr/include/c++/11/bits/cxxabi_init_exception.h:
+/usr/include/armadillo_bits/subview_elem2_meat.hpp:
 
-/usr/include/armadillo_bits/operator_cube_minus.hpp:
+/usr/include/armadillo_bits/arma_rng_cxx98.hpp:
 
-/usr/include/armadillo_bits/glue_times_bones.hpp:
+/usr/include/aarch64-linux-gnu/sys/select.h:
 
-/usr/include/armadillo_bits/fn_ones.hpp:
+/usr/include/c++/11/bits/shared_ptr.h:
 
-/usr/include/aarch64-linux-gnu/bits/timex.h:
+/usr/include/c++/11/bits/stl_construct.h:
 
-/usr/include/armadillo_bits/eop_core_meat.hpp:
+/usr/include/armadillo_bits/gmm_full_bones.hpp:
 
-/usr/include/armadillo_bits/fn_eigs_gen.hpp:
+/usr/include/armadillo_bits/arma_config.hpp:
 
-/usr/include/c++/11/bits/valarray_after.h:
+/usr/include/aarch64-linux-gnu/sys/types.h:
 
-/usr/include/aarch64-linux-gnu/bits/struct_rwlock.h:
-
-/usr/include/nlohmann/detail/macro_scope.hpp:
-
-/usr/include/armadillo_bits/upgrade_val.hpp:
-
-/usr/include/armadillo_bits/glue_intersect_meat.hpp:
-
-/usr/include/c++/11/map:
-
-/usr/include/c++/11/bits/sstream.tcc:
-
-/usr/include/aarch64-linux-gnu/bits/endianness.h:
-
-/usr/include/aarch64-linux-gnu/bits/thread-shared-types.h:
+/usr/include/aarch64-linux-gnu/bits/pthreadtypes.h:
 
 /usr/include/nlohmann/detail/iterators/iteration_proxy.hpp:
 
-/usr/include/armadillo_bits/fn_range.hpp:
+/usr/include/c++/11/limits:
 
-/usr/include/c++/11/ostream:
+/usr/include/aarch64-linux-gnu/c++/11/bits/time_members.h:
 
-/usr/include/armadillo_bits/restrictors.hpp:
+/usr/include/armadillo_bits/fn_svds.hpp:
 
-/usr/include/armadillo_bits/trimat_helper.hpp:
-
-/usr/include/c++/11/cstdint:
-
-/usr/include/armadillo_bits/op_orth_null_bones.hpp:
+/usr/include/aarch64-linux-gnu/c++/11/bits/cpu_defines.h:
 
 /usr/include/nlohmann/detail/conversions/to_json.hpp:
 
 /usr/include/aarch64-linux-gnu/c++/11/bits/gthr-default.h:
 
 /usr/include/aarch64-linux-gnu/bits/environments.h:
-
-/usr/include/alloca.h:
-
-/usr/include/armadillo_bits/SpOp_meat.hpp:
-
-/usr/include/armadillo_bits/Base_bones.hpp:
-
-/usr/include/armadillo_bits/SpCol_bones.hpp:
-
-/usr/include/aarch64-linux-gnu/bits/time64.h:
-
-/usr/include/c++/11/streambuf:
-
-/usr/include/armadillo_bits/running_stat_bones.hpp:
-
-/usr/include/c++/11/bits/functexcept.h:
-
-/usr/include/aarch64-linux-gnu/bits/uintn-identity.h:
-
-/usr/include/aarch64-linux-gnu/bits/time.h:
-
-/usr/include/c++/11/cstdio:
-
-/usr/include/armadillo_bits/op_min_bones.hpp:
-
-/usr/include/aarch64-linux-gnu/bits/stdint-uintn.h:
-
-/usr/include/armadillo_bits/debug.hpp:
-
-/usr/include/c++/11/bits/localefwd.h:
-
-/usr/include/armadillo_bits/spglue_plus_bones.hpp:
-
-/usr/include/armadillo_bits/OpCube_bones.hpp:
-
-/usr/include/armadillo_bits/op_stddev_meat.hpp:
-
-/usr/include/c++/11/cerrno:
-
-/usr/include/aarch64-linux-gnu/bits/types/clock_t.h:
-
-/usr/include/aarch64-linux-gnu/c++/11/bits/c++locale.h:
-
-/usr/include/c++/11/bits/streambuf_iterator.h:
-
-/usr/include/armadillo_bits/fft_engine.hpp:
-
-/usr/include/c++/11/cctype:
-
-/usr/include/c++/11/iomanip:
-
-/usr/include/c++/11/bits/ios_base.h:
 
 /usr/include/aarch64-linux-gnu/c++/11/bits/gthr.h:
 
@@ -2109,107 +1923,75 @@ CMakeFiles/extended_huckel.dir/src/main.cpp.o: ../src/main.cpp \
 
 /usr/include/armadillo_bits/glue_atan2_bones.hpp:
 
-/usr/include/aarch64-linux-gnu/bits/types/struct_timespec.h:
+../src/main.cpp:
 
-/usr/include/c++/11/array:
+/usr/include/c++/11/bits/streambuf.tcc:
 
-/usr/include/aarch64-linux-gnu/bits/types/struct_sched_param.h:
+/usr/include/c++/11/bits/stl_iterator_base_funcs.h:
 
-/usr/include/c++/11/clocale:
+/usr/include/endian.h:
 
-/usr/include/armadillo_bits/op_sort_index_bones.hpp:
+/usr/include/c++/11/bits/cpp_type_traits.h:
 
-/usr/include/aarch64-linux-gnu/bits/stdlib-float.h:
+/usr/include/c++/11/ext/concurrence.h:
 
-/usr/include/aarch64-linux-gnu/bits/mathcalls-helper-functions.h:
+/usr/include/armadillo_bits/distr_param.hpp:
 
-/usr/include/aarch64-linux-gnu/c++/11/bits/c++allocator.h:
+/usr/include/armadillo_bits/gmm_diag_meat.hpp:
 
-/usr/lib/gcc/aarch64-linux-gnu/11/include/stdint.h:
+/usr/include/nlohmann/json.hpp:
 
-/usr/include/armadillo_bits/xtrans_mat_bones.hpp:
+/usr/include/c++/11/bits/stl_function.h:
 
-/usr/include/aarch64-linux-gnu/bits/types/struct_timeval.h:
+/usr/include/armadillo_bits/fn_polyval.hpp:
 
-/usr/include/armadillo_bits/ProxyCube.hpp:
+/usr/include/c++/11/bits/memoryfwd.h:
 
-/usr/include/c++/11/sstream:
+/usr/include/c++/11/bits/stl_pair.h:
 
-/usr/include/armadillo_bits/spop_diagmat_bones.hpp:
+/usr/include/c++/11/bits/vector.tcc:
 
-/usr/include/c++/11/bits/ostream.tcc:
+/usr/include/aarch64-linux-gnu/bits/types/__mbstate_t.h:
 
-/usr/include/nlohmann/detail/meta/detected.hpp:
+/usr/include/c++/11/ext/atomicity.h:
+
+/usr/include/armadillo_bits/diagmat_proxy.hpp:
+
+/usr/include/armadillo_bits/op_dotext_bones.hpp:
 
 /usr/include/aarch64-linux-gnu/bits/types/timer_t.h:
 
 /usr/include/armadillo_bits/op_max_bones.hpp:
 
-/usr/include/aarch64-linux-gnu/bits/pthreadtypes-arch.h:
+/usr/lib/gcc/aarch64-linux-gnu/11/include/stddef.h:
 
-/usr/include/armadillo_bits/constants.hpp:
+/usr/include/nlohmann/detail/meta/detected.hpp:
 
-/usr/include/c++/11/bits/hashtable.h:
+/usr/include/armadillo_bits/spop_diagmat_bones.hpp:
 
-/usr/include/aarch64-linux-gnu/bits/types.h:
+/usr/include/c++/11/bits/ostream.tcc:
 
-/usr/include/armadillo_bits/op_nonzeros_meat.hpp:
+/usr/include/limits.h:
 
-/usr/include/aarch64-linux-gnu/bits/setjmp.h:
+/usr/include/armadillo_bits/spop_var_meat.hpp:
+
+/usr/include/c++/11/bits/erase_if.h:
+
+/usr/include/armadillo_bits/translate_superlu.hpp:
+
+/usr/include/armadillo_bits/op_sp_minus_bones.hpp:
+
+/usr/include/armadillo_bits/fn_var.hpp:
+
+/usr/include/asm-generic/errno-base.h:
+
+/usr/include/c++/11/bits/allocated_ptr.h:
+
+/usr/include/assert.h:
 
 /usr/include/armadillo_bits/CubeToMatOp_meat.hpp:
 
 /usr/include/c++/11/bits/indirect_array.h:
-
-/usr/include/armadillo_bits/glue_histc_meat.hpp:
-
-/usr/include/aarch64-linux-gnu/bits/types/struct___jmp_buf_tag.h:
-
-/usr/include/armadillo_bits/spglue_join_bones.hpp:
-
-/usr/include/c++/11/bits/stl_bvector.h:
-
-/usr/include/c++/11/bits/valarray_before.h:
-
-/usr/include/armadillo_bits/fn_quantile.hpp:
-
-/usr/include/armadillo_bits/operator_div.hpp:
-
-/usr/include/armadillo_bits/op_strans_bones.hpp:
-
-/usr/include/armadillo_bits/glue_trapz_bones.hpp:
-
-/usr/include/c++/11/string:
-
-/usr/include/stdio.h:
-
-/usr/include/aarch64-linux-gnu/bits/types/clockid_t.h:
-
-/usr/include/c++/11/algorithm:
-
-/usr/include/armadillo_bits/fn_regspace.hpp:
-
-/usr/include/c++/11/iostream:
-
-/usr/include/armadillo_bits/Cube_meat.hpp:
-
-/usr/include/armadillo_bits/include_atlas.hpp:
-
-/usr/include/armadillo_bits/op_log_det_bones.hpp:
-
-/usr/include/aarch64-linux-gnu/bits/mathcalls.h:
-
-/usr/include/aarch64-linux-gnu/bits/floatn.h:
-
-/usr/include/c++/11/bits/algorithmfwd.h:
-
-/usr/include/c++/11/bits/cxxabi_forced.h:
-
-/usr/include/armadillo_bits/Row_bones.hpp:
-
-/usr/include/c++/11/backward/binders.h:
-
-/usr/include/c++/11/ext/alloc_traits.h:
 
 /usr/include/c++/11/bit:
 
@@ -2219,63 +2001,247 @@ CMakeFiles/extended_huckel.dir/src/main.cpp.o: ../src/main.cpp \
 
 /usr/include/armadillo_bits/mtSpGlue_bones.hpp:
 
+/usr/include/nlohmann/detail/meta/type_traits.hpp:
+
+/usr/include/c++/11/bits/stl_iterator_base_types.h:
+
 /usr/include/c++/11/cstdlib:
+
+/usr/include/aarch64-linux-gnu/bits/fp-fast.h:
+
+/usr/include/c++/11/bits/exception_defines.h:
+
+/usr/include/armadillo_bits/fn_expmat.hpp:
+
+/usr/include/pthread.h:
+
+/usr/include/c++/11/string:
+
+/usr/include/armadillo_bits/glue_trapz_bones.hpp:
+
+/usr/include/armadillo_bits/mtGlue_bones.hpp:
+
+/usr/include/armadillo_bits/op_cx_scalar_bones.hpp:
+
+/usr/include/armadillo_bits/arma_rng_cxx11.hpp:
+
+/usr/include/armadillo_bits/fn_cond.hpp:
+
+/usr/include/armadillo_bits/op_prod_bones.hpp:
+
+/usr/include/c++/11/bits/stl_raw_storage_iter.h:
+
+/usr/include/aarch64-linux-gnu/bits/types/sigset_t.h:
+
+/usr/include/armadillo_bits/xtrans_mat_bones.hpp:
+
+/usr/include/aarch64-linux-gnu/bits/types/struct_timeval.h:
+
+/usr/include/armadillo_bits/ProxyCube.hpp:
+
+/usr/include/c++/11/sstream:
+
+/usr/include/aarch64-linux-gnu/bits/types/struct_timespec.h:
+
+/usr/include/armadillo_bits/fn_normalise.hpp:
+
+/usr/include/c++/11/bits/uses_allocator.h:
+
+/usr/include/c++/11/bits/unique_lock.h:
+
+/usr/include/aarch64-linux-gnu/bits/pthreadtypes-arch.h:
+
+/usr/include/armadillo_bits/constants.hpp:
+
+/usr/include/c++/11/bits/hashtable.h:
+
+/usr/include/armadillo_bits/op_nonzeros_meat.hpp:
+
+/usr/include/aarch64-linux-gnu/bits/setjmp.h:
+
+/usr/include/aarch64-linux-gnu/bits/types.h:
+
+/usr/include/armadillo_bits/SpCol_bones.hpp:
+
+/usr/include/aarch64-linux-gnu/bits/time64.h:
+
+/usr/include/alloca.h:
+
+/usr/include/armadillo_bits/SpOp_meat.hpp:
+
+/usr/include/armadillo_bits/Base_bones.hpp:
+
+/usr/include/armadillo_bits/fn_chi2rnd.hpp:
+
+/usr/include/armadillo_bits/fn_log_det.hpp:
+
+/usr/include/c++/11/chrono:
+
+/usr/include/armadillo_bits/fn_sprandu.hpp:
+
+/usr/include/aarch64-linux-gnu/bits/waitflags.h:
+
+/usr/include/c++/11/bits/cxxabi_forced.h:
+
+/usr/include/c++/11/bits/algorithmfwd.h:
+
+/usr/include/c++/11/bits/invoke.h:
+
+/usr/include/armadillo_bits/typedef_mat.hpp:
+
+/usr/include/armadillo_bits/fn_mvnrnd.hpp:
+
+/usr/include/c++/11/bits/stl_tempbuf.h:
+
+/usr/include/c++/11/typeinfo:
+
+/usr/include/armadillo_bits/fn_cumprod.hpp:
+
+/usr/include/aarch64-linux-gnu/bits/types/__fpos64_t.h:
+
+/usr/include/nlohmann/detail/iterators/primitive_iterator.hpp:
+
+/usr/include/c++/11/bits/stl_iterator.h:
+
+/usr/include/c++/11/new:
+
+/usr/include/c++/11/climits:
+
+/usr/include/c++/11/bits/locale_facets.h:
+
+/usr/include/armadillo_bits/eop_core_meat.hpp:
+
+/usr/include/armadillo_bits/fn_eigs_gen.hpp:
+
+/usr/include/c++/11/bits/valarray_after.h:
+
+/usr/include/c++/11/bits/istream.tcc:
+
+/usr/include/armadillo_bits/glue_intersect_meat.hpp:
+
+/usr/include/c++/11/map:
+
+/usr/include/c++/11/bits/stl_algobase.h:
+
+/usr/include/unistd.h:
+
+/usr/include/armadillo_bits/glue_min_bones.hpp:
+
+/usr/include/c++/11/cwchar:
+
+/usr/include/aarch64-linux-gnu/bits/thread-shared-types.h:
+
+/usr/include/c++/11/bits/sstream.tcc:
+
+/usr/include/aarch64-linux-gnu/bits/endianness.h:
+
+/usr/include/armadillo_bits/fn_schur.hpp:
+
+/usr/include/ctype.h:
+
+/usr/include/armadillo_bits/op_chi2rnd_meat.hpp:
+
+/usr/include/c++/11/locale:
+
+/usr/include/armadillo_bits/mtGlueCube_bones.hpp:
+
+/usr/include/armadillo_bits/op_nonzeros_bones.hpp:
+
+/usr/include/armadillo_bits/op_min_meat.hpp:
+
+/usr/include/c++/11/bits/stream_iterator.h:
+
+/usr/include/c++/11/algorithm:
+
+/usr/include/c++/11/bits/functional_hash.h:
+
+/usr/include/c++/11/bits/refwrap.h:
+
+/usr/include/stdio.h:
+
+/usr/include/aarch64-linux-gnu/bits/types/clockid_t.h:
+
+/usr/include/c++/11/bits/stringfwd.h:
+
+/usr/include/armadillo_bits/glue_hypot_bones.hpp:
+
+/usr/include/c++/11/bits/postypes.h:
+
+/usr/include/c++/11/bits/cxxabi_init_exception.h:
+
+/usr/include/c++/11/bits/uniform_int_dist.h:
+
+/usr/include/c++/11/bits/basic_ios.h:
 
 /usr/include/armadillo_bits/operator_cube_plus.hpp:
 
-/usr/include/wchar.h:
-
 /usr/include/nlohmann/detail/exceptions.hpp:
 
-/usr/include/c++/11/bits/locale_conv.h:
+/usr/include/wchar.h:
 
-/usr/include/aarch64-linux-gnu/bits/types/mbstate_t.h:
+/usr/include/armadillo_bits/operator_cube_minus.hpp:
 
-/usr/include/aarch64-linux-gnu/bits/posix_opt.h:
+/usr/include/armadillo_bits/glue_times_bones.hpp:
 
-/usr/include/armadillo_bits/fn_trace.hpp:
+/usr/include/armadillo_bits/glue_affmul_meat.hpp:
 
-/usr/include/nlohmann/detail/value_t.hpp:
+/usr/include/math.h:
+
+/usr/include/c++/11/bits/exception_ptr.h:
+
+/usr/include/c++/11/bits/charconv.h:
+
+/usr/include/aarch64-linux-gnu/bits/types/__FILE.h:
+
+/usr/include/armadillo_bits/glue_intersect_bones.hpp:
+
+/usr/include/c++/11/bits/streambuf_iterator.h:
+
+/usr/include/aarch64-linux-gnu/bits/uintn-identity.h:
+
+/usr/include/aarch64-linux-gnu/bits/time.h:
+
+/usr/include/c++/11/bits/functexcept.h:
+
+/usr/include/armadillo_bits/op_sort_index_bones.hpp:
+
+/usr/include/aarch64-linux-gnu/bits/mathcalls-helper-functions.h:
+
+/usr/include/aarch64-linux-gnu/bits/stdlib-float.h:
+
+/usr/include/armadillo_bits/running_stat_bones.hpp:
+
+/usr/include/c++/11/streambuf:
+
+/usr/include/armadillo_bits/debug.hpp:
+
+/usr/include/c++/11/bits/localefwd.h:
+
+/usr/include/armadillo_bits/spglue_plus_bones.hpp:
+
+/usr/include/armadillo_bits/OpCube_bones.hpp:
 
 /usr/include/armadillo_bits/fn_randi.hpp:
 
 /usr/include/armadillo_bits/newarp_SymEigsSolver_bones.hpp:
 
-/usr/include/c++/11/unordered_map:
-
 /usr/include/nlohmann/detail/meta/void_t.hpp:
 
-/usr/include/c++/11/bits/allocated_ptr.h:
+/usr/include/c++/11/unordered_map:
 
-/usr/include/assert.h:
+/usr/include/c++/11/backward/binders.h:
 
-/usr/include/nlohmann/detail/input/position_t.hpp:
+/usr/include/armadillo_bits/Row_bones.hpp:
 
-/usr/include/nlohmann/detail/meta/cpp_future.hpp:
+/usr/include/armadillo_bits/fft_engine.hpp:
 
-/usr/include/c++/11/debug/assertions.h:
+/usr/include/c++/11/cctype:
 
-/usr/include/armadillo_bits/op_find_unique_bones.hpp:
+/usr/include/c++/11/iomanip:
 
-/usr/include/nlohmann/detail/meta/identity_tag.hpp:
+/usr/include/c++/11/bits/ios_base.h:
 
-/usr/include/c++/11/bits/stl_iterator_base_types.h:
-
-/usr/include/nlohmann/detail/meta/type_traits.hpp:
-
-/usr/include/c++/11/limits:
-
-/usr/include/aarch64-linux-gnu/c++/11/bits/time_members.h:
-
-/usr/include/armadillo_bits/fn_spones.hpp:
-
-/usr/include/armadillo_bits/compiler_setup.hpp:
-
-/usr/include/armadillo_bits/SizeCube_meat.hpp:
-
-/usr/include/nlohmann/detail/meta/call_std/end.hpp:
-
-/usr/include/nlohmann/detail/input/json_sax.hpp:
+/usr/include/sched.h:
 
 /usr/include/aarch64-linux-gnu/bits/pthread_stack_min-dynamic.h:
 
@@ -2283,17 +2249,29 @@ CMakeFiles/extended_huckel.dir/src/main.cpp.o: ../src/main.cpp \
 
 /usr/include/nlohmann/detail/hash.hpp:
 
-/usr/include/c++/11/bits/locale_facets.tcc:
-
-/usr/include/nlohmann/detail/input/binary_reader.hpp:
+/usr/include/armadillo_bits/op_princomp_bones.hpp:
 
 /usr/include/aarch64-linux-gnu/bits/sched.h:
-
-/usr/include/armadillo_bits/op_princomp_bones.hpp:
 
 /usr/include/strings.h:
 
 /usr/include/nlohmann/detail/input/input_adapters.hpp:
+
+/usr/include/c++/11/istream:
+
+/usr/include/nlohmann/detail/input/binary_reader.hpp:
+
+/usr/include/c++/11/bits/locale_facets.tcc:
+
+/usr/include/armadillo_bits/fn_range.hpp:
+
+/usr/include/armadillo_bits/restrictors.hpp:
+
+/usr/include/c++/11/ostream:
+
+/usr/include/armadillo_bits/newarp_UpperHessenbergQR_meat.hpp:
+
+/usr/include/armadillo_bits/eGlueCube_bones.hpp:
 
 /usr/include/nlohmann/detail/input/parser.hpp:
 
@@ -2343,6 +2321,12 @@ CMakeFiles/extended_huckel.dir/src/main.cpp.o: ../src/main.cpp \
 
 /usr/include/nlohmann/detail/conversions/to_chars.hpp:
 
+/usr/include/armadillo_bits/access.hpp:
+
+/usr/include/nlohmann/ordered_map.hpp:
+
+/usr/include/aarch64-linux-gnu/c++/11/bits/c++io.h:
+
 /usr/include/armadillo_bits/hdf5_misc.hpp:
 
 /usr/include/armadillo_bits/op_expmat_bones.hpp:
@@ -2351,11 +2335,27 @@ CMakeFiles/extended_huckel.dir/src/main.cpp.o: ../src/main.cpp \
 
 /usr/include/armadillo_bits/include_hdf5.hpp:
 
-/usr/include/errno.h:
-
 /usr/include/c++/11/bits/alloc_traits.h:
 
+/usr/include/errno.h:
+
 /usr/include/nlohmann/thirdparty/hedley/hedley_undef.hpp:
+
+/usr/include/armadillo_bits/fn_regspace.hpp:
+
+/usr/include/c++/11/iostream:
+
+/usr/include/armadillo_bits/Cube_meat.hpp:
+
+/usr/include/armadillo_bits/include_atlas.hpp:
+
+/usr/include/armadillo_bits/op_log_det_bones.hpp:
+
+/usr/include/armadillo_bits/mtGlue_meat.hpp:
+
+/usr/include/aarch64-linux-gnu/c++/11/bits/basic_file.h:
+
+/usr/include/c++/11/bits/fstream.tcc:
 
 /usr/include/armadillo:
 

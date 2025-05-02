@@ -1,7 +1,7 @@
+#include <nlohmann/json.hpp> 
 #include <iostream>
 #include <vector>
 #include <fstream>
-#include <nlohmann/json.hpp> 
 #include <armadillo>
 #include <filesystem>
 #include "basis_sets.h"
@@ -13,6 +13,7 @@ struct atomic_orbital
     double atom_id;
     std::string atom;
     std::string orbital_type;
+    std::string orbital_axis;
     double atomic_number;
     arma::vec coordinates;
 
@@ -45,6 +46,7 @@ std::vector<atomic_orbital> create_atomic_orbitals(int atom_id, std::string atom
     s_orbital.orbital_type = "s";
     s_orbital.atomic_number = atomic_number;
     s_orbital.coordinates = coordinates;
+    s_orbital.orbital_axis = "none"; // s orbitals are not along any axis
     atomic_orbitals.push_back(s_orbital);
 
     if(!hydrogen)
@@ -57,6 +59,7 @@ std::vector<atomic_orbital> create_atomic_orbitals(int atom_id, std::string atom
             p_orbital.orbital_type = "p";
             p_orbital.atomic_number = atomic_number;
             p_orbital.coordinates = coordinates;
+            p_orbital.orbital_axis = orbital_axis_map[i + 1]; // x axis= 1, y axis = 1, z axis = 2
             atomic_orbitals.push_back(p_orbital);
 
         }
@@ -97,6 +100,9 @@ class Extended_Huckel
     int N;
     std::map<double, std::vector<bond>> bond_map; 
     std::vector<atomic_orbital> atomic_orbitals;
+    double sigma_threshold = 0.9;
+    double pi_threshold = 0.1;
+    double bohr_radius = 0.52917;
     
     public:
     //std::vector<atomic_orbital> atomic_orbitals;
@@ -110,7 +116,7 @@ class Extended_Huckel
         //bond information
         std::vector<double> aid1 = compound_data[4];
         std::vector<double> aid2 = compound_data[5];
-        std::vector<double> bond_orders = compound_data[5];
+        std::vector<double> bond_orders = compound_data[6];
 
         int total_atoms = atomic_numbers.size();
 
@@ -154,49 +160,125 @@ class Extended_Huckel
 
     }
 
-    /*
-    double two_center_off_diagonal(atomic_orbital u, atomic_orbital v)
+    
+    std::string pi_bond_type(atomic_orbital u, atomic_orbital v)
     {
+        arma::vec R = u.coordinates - v.coordinates; // vectors displacement between atoms
+        double R_norm = arma::norm(R); // euclidian distance between atoms
+        arma::vec R_unit = R / R_norm;
+        std::string bond_type;
 
-    }
-    arma::mat H_matrix()
-    {
-        arma::mat H(N,N);
-
-        for(int u=0; u < N; u++)
+        if(u.orbital_axis=="z" && v.orbital_axis=="z")
         {
-            atomic_orbital u_orbital = atomic_orbitals[u];
-            int u_atom_id = u_orbital.atom_id;
-            for(int v=0; v < N; v++)
+            double rz = R_unit(2);
+            if(std::abs(rz) > sigma_threshold)
             {
-                double uv;
-                atomic_orbital v_orbital = atomic_orbitals[v];
-                int v_atom_id = v_orbital.atom_id;
+                bond_type = "pp_sigma";
+            }
+        
+        }
 
-                // diagonal terms
-                if(u==v)
-                {
-
-                }
-                else
-                {
-                    // one-center off diagonal terms
-                    if(u_atom_id==v_atom_id)
-                    {
-                        uv=0.0;
-                    }
-                    else // two-center off diagonal terms
-                    {
-
-                    }
-                }
-
+        else if(u.orbital_axis==v.orbital_axis) // considers px-px and py-py pairs
+        {
+            double rx = R_unit(0);
+            double ry = R_unit(1);
+            if(std::abs(rx) < pi_threshold && std::abs(ry) < pi_threshold)
+            {
+                bond_type = "pp_pi";
             }
         }
 
-
+        return bond_type;
     }
-*/
+
+    double two_center_off_diagonal(atomic_orbital u, atomic_orbital v)
+    {
+        std::string u_atom = u.atom;
+        std::string v_atom = v.atom;
+        std::string u_orbital = u.orbital_type;
+        std::string v_orbital = u.orbital_type;
+        std::string orbital_pair = u.orbital_type + u.orbital_type;
+        std::string atom_pair = u_atom + v_atom;
+        std::pair<double, double> bond_parameters;
+
+        double lambda;
+        double beta;
+
+        // determine if a C-C pp bond is sigma or pi
+        if(atom_pair=="CC" && orbital_pair== "pp")
+        {
+            std::string bond_type = pi_bond_type(u, v);
+            bond_parameters = bond_type_parameters[atom_pair][bond_type];
+            lambda = bond_parameters.first;
+            beta = bond_parameters.second;
+        }
+
+    
+        bond_parameters = bond_type_parameters[atom_pair][orbital_pair];
+        lambda = bond_parameters.first;
+        beta = bond_parameters.second;
+
+        arma::vec R = u.coordinates - v.coordinates; // vector displacement between atoms
+        double R_AB = arma::norm(R); // euclidian distance between atoms
+
+        double H_uv = beta * std::pow((R_AB/bohr_radius), 0.5) * std::exp((-lambda * std::pow(R_AB,2))/ std::pow(bohr_radius,2));
+        return H_uv;
+    }
+
+    bool are_atoms_bonded(atomic_orbital u, atomic_orbital v)
+    {
+        double A_atom_id = u.atom_id;
+        double B_atom_id = v.atom_id; 
+        bool bonded = false;
+        std::vector<bond> A_bonds = bond_map[A_atom_id];
+
+        for(int i=0; i < A_bonds.size(); i++)
+        {
+            double counterpart_id = A_bonds[i].atom_id;
+            if(counterpart_id == B_atom_id)
+            {
+                bonded = true;
+            }
+        }
+        return bonded;
+    }
+
+    arma::mat H()
+    {
+        arma::mat H_matrix(N,N);
+
+        double A_id; // atom id for orbital u
+        double B_id; // atom if for orbital v
+
+        for(int u = 0; u < N; u++)
+        {
+            for(int v = 0; v < N; v++)
+            {
+
+                atomic_orbital u_orbital = atomic_orbitals[u];
+                atomic_orbital v_orbital = atomic_orbitals[v];
+                A_id = u_orbital.atom_id;
+                B_id = v_orbital.atom_id;
+
+                if(A_id == B_id && u!=v) // for off diagonal one-center orbitals 
+                {
+                    H_matrix(u,v) = 0.0;
+                }
+                else if(u == v) // for identical orbitals
+                {
+                    std::string atom = u_orbital.atom;
+                    std::string orbital_type = u_orbital.orbital_type;
+                    H_matrix(u,v) = atomic_parameters[atom][orbital_type];
+                }
+                else // for off diagonal two-center orbitals
+                {
+                    H_matrix(u,v) = two_center_off_diagonal(u_orbital,v_orbital);
+                }
+            }
+        }
+        return H_matrix;
+    }
+    
 
 };
 
@@ -207,7 +289,9 @@ std::vector<std::vector<double>> read_json(std::string filepath)
         std::cerr << "Error: Could not open JSON file!" << std::endl;
         return {};
     }
+
     json data;
+    
     try{
         input >> data;
     } catch (json::parse_error& e){
