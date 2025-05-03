@@ -31,9 +31,9 @@ std::vector<atomic_orbital> create_atomic_orbitals(int atom_id, std::string atom
     /**
     * @brief Creates a vector of atomic orbitals based on input parameters.
     * 
-    * @param atom_ The name or symbol of the atom (e.g., "H", "C").
-    * @param atomic_number_ The atomic number (Z) of the element.
-    * @param coordinates_ The 3D coordinates of the atom (arma::vec).
+    * @param atom The name or symbol of the atom (e.g., "H", "C").
+    * @param atomic_number The atomic number (Z) of the element.
+    * @param coordinates The 3D coordinates of the atom (arma::vec).
     * @return std::vector<atomic_orbital> A list of atomic orbitals.
     * 
     * 
@@ -71,6 +71,18 @@ std::vector<atomic_orbital> create_atomic_orbitals(int atom_id, std::string atom
 
 std::vector<bond> get_bond_vector(std::vector<double> aid1, std::vector<double> aid2, std::vector<double> bond_order, double atom_id)
 {
+    /**
+    * @brief Creates a vector of bond structures. 
+    * 
+    * @param aid1 std::vector<double> containing the atom IDs that make up half a bond
+    * @param aid2 std::vector<double> containing the atom IDs that make up half a bond
+    * @param bond_order std::vector<double> containing the bond orders
+    * @param atom_id Atom ID of interest 
+    * @return std::vector<bond> A list of bond structures that correspond to the given atom_id; 
+    * each bond structures contains the atom-id of the counterpart atom and the bonder order.
+    * 
+    * 
+    */
     std::vector<bond> my_bonds;
 
     for(int i=0; i < aid1.size(); i++)
@@ -164,6 +176,15 @@ class Extended_Huckel
     
     std::string pi_bond_type(atomic_orbital u, atomic_orbital v)
     {
+        /**
+        * @brief Determines a double bond as sigma or pi if overlap occurs between orbitals   
+        * 
+        * @param u A p orbital
+        *  @param v A p orbital
+        * @return std::string pi bond type (sigma, pi, none-- if no overlap occurs between p orbitals) 
+        * 
+        * 
+        */
         std::string u_orbital_axis = u.orbital_axis;
         std::string v_orbital_axis = v.orbital_axis;
         std::string bond_type = "none"; 
@@ -186,6 +207,15 @@ class Extended_Huckel
 
     std::tuple<bool, double> are_atoms_bonded(atomic_orbital u, atomic_orbital v)
     {
+        /**
+        * @brief Determines if a bond occurs between the atoms corresponding to the provided orbitals  
+        * 
+        * @param u A p orbital
+        * @param v A p orbital
+        * @return std::tuple<bool, double> bool (true if a bond occurs), double (bond order -- 0.0 if no bond occurs)
+        * 
+        * 
+        */
         double A_atom_id = u.atom_id;
         double B_atom_id = v.atom_id; 
         bool bonded = false;
@@ -207,6 +237,16 @@ class Extended_Huckel
 
     std::pair<double, double> determine_bond_parameters(atomic_orbital u, atomic_orbital v, double bond_order)
     {
+        /**
+        * @brief Determines the lambda and beta parameters for the two-center off-diagonal H values  
+        * 
+        * @param u A p orbital
+        * @param v A p orbital
+        * @param bond_order the bond order shared between atoms of orbital u and orbital v  
+        * @return std::tuple<double, double> containing the lambda and beta values 
+        * 
+        * 
+        */
         std::string u_atom = u.atom;
         std::string v_atom = v.atom;
         std::string u_orbital = u.orbital_type;
@@ -239,6 +279,16 @@ class Extended_Huckel
 
     double two_center_off_diagonal(atomic_orbital u, atomic_orbital v)
     {
+        /**
+        * @brief Determines the two-center off-diagonal H values  between the given orbitals 
+        * 
+        * @param u A p orbital
+        * @param v A p orbital 
+        * @return  two-center off-diagonal H value
+        * 
+        * 
+        */
+
         // determine if orbitals share a bond
         std::tuple<bool, int> bonded = are_atoms_bonded(u,v);
         if(std::get<0>(bonded) == false)
