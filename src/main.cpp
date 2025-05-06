@@ -120,12 +120,13 @@ class Extended_Huckel
     std::map<double, std::vector<bond>> bond_map; // contains the a vector of all all bond information (atom pair and bond order) corresponding to an atom id
     //std::vector<atomic_orbital> atomic_orbitals;
     double bohr_radius = 0.52917; // units of angstrom
-    double k_cal_conversion = 23.06054;
+    double k_cal_conversion = 23.06054; // coverts eV to kcal/mol
     int total_electrons = 0;
     std::vector<atom_info> atom_vec;
     
     public:
     std::vector<atomic_orbital> atomic_orbitals;
+
     Extended_Huckel(std::vector<std::vector<double>> compound_data)
     {
         //coordinate information
@@ -140,6 +141,7 @@ class Extended_Huckel
 
         int total_atoms = atomic_numbers.size();
 
+        // assign the orbitals for each atom 
         for(int i=0; i < total_atoms; i++)
         {
             double atomic_number = atomic_numbers[i];
@@ -157,7 +159,7 @@ class Extended_Huckel
             atom_vec.push_back(my_atom);
 
             // create dictionary entry
-            bond_map[atom_id] = get_bond_vector(aid1, aid2, bond_orders, atom_id);
+            bond_map[atom_id] = get_bond_vector(aid1, aid2, bond_orders, atom_id); // entry contains all bonds the atom is involved in 
       
 
             // create the atomic orbitals for atom
@@ -181,36 +183,50 @@ class Extended_Huckel
     }
 
     
-    std::string pi_bond_type(atomic_orbital u, atomic_orbital v)
+    std::string pp_bond_type(atomic_orbital u, atomic_orbital v)
     {
         /**
-        * @brief Determines a double bond as sigma or pi if overlap occurs between orbitals   
+        * @brief Determines a double bond as sigma or pi   
         * 
         * @param u A p orbital
-        *  @param v A p orbital
+        * @param v A p orbital
         * @return std::string pi bond type (sigma, pi, none-- if no overlap occurs between p orbitals) 
         * 
         * 
         */
         std::string u_orbital_axis = u.orbital_axis;
         std::string v_orbital_axis = v.orbital_axis;
-        std::string bond_type = "none"; 
+        std::string orbital_pair = u.orbital_type + v.orbital_type;
+        //std::cout << "orbital pair: " << orbital_pair << std::endl;
+        std::string bond_type;
 
-        if(u_orbital_axis!=v_orbital_axis) // mixed orbital interactions will have no overlap (i.e. px-py, pz-py, etc)
+        if(orbital_pair!="pp") // acounts for sp/ps interactions
         {
-            return bond_type;
+            bond_type = orbital_pair;
         }
-        else if(u_orbital_axis==v_orbital_axis && u_orbital_axis=="z") // matching orbitals along the z axis are labeled as sigma 
-        {
-            bond_type = "pp_sigma";
-        }
-        else if(u_orbital_axis==v_orbital_axis && (u_orbital_axis=="x" || u_orbital_axis=="y")) // matching orbital along either x or y axis are labeled as pi
+        else if(u_orbital_axis!=v_orbital_axis) // accounts for mixed pp orbital interactions
         {
             bond_type = "pp_pi";
+        }
+        else // acounts for identicaly pp orbital interactions
+        {
+            arma::vec coordinate_difference = u.coordinates - v.coordinates;
+            double magnitude = arma::norm(coordinate_difference);
+            arma::vec unit_vec = coordinate_difference/magnitude;
+            int my_index = orbital_index[u_orbital_axis];
+            double unit_vec_component = unit_vec(my_index);
+            if(unit_vec_component > 0.9)
+            {
+                bond_type = "pp_sigma";
+            }
+            else{
+                bond_type = "pp_pi";
+            }
         }
 
         return bond_type;
     }
+
 
     std::tuple<bool, double> are_atoms_bonded(atomic_orbital u, atomic_orbital v)
     {
@@ -255,6 +271,7 @@ class Extended_Huckel
         * 
         * 
         */
+
         std::string u_atom = u.atom;
         std::string v_atom = v.atom;
         std::string u_orbital = u.orbital_type;
@@ -263,31 +280,13 @@ class Extended_Huckel
         std::string orbital_pair = u_orbital + v_orbital;
         std::pair<double, double>  bond_parameters;
 
-        if(bond_order==2.0 && orbital_pair=="pp") // determine double bond parameters for pp orbitals 
+        if(orbital_pair=="pp") // determine bond parameters for pp orbitals 
         {
-            std::string bond_type = pi_bond_type(u, v);
-            if(bond_type=="none") // "none" means no overlap occured between orbitals (i.e px-py, px-pz, etc.)
-            {
-                bond_parameters = std::make_pair(0.0, 0.0); 
-        
-            }
-            else{
-                bond_parameters = bond_type_parameters[atom_pair][bond_type];
-            }
+            std::string bond_type = pp_bond_type(u, v);
+            bond_parameters = bond_type_parameters[atom_pair][bond_type];
+            
         }
-        else if(bond_order==1.0 && orbital_pair=="pp") // determine single bond parameters for pp orbitals 
-        {
-            if(u.orbital_axis!=v.orbital_axis) // orbitals are along different axis aligns and NO sigma overlap will occurs
-            {
-                bond_parameters = std::make_pair(0.0, 0.0);
-            }
-            else // orbitals are along same axis and sigma overlap DOES occur
-            {
-                orbital_pair = "pp_sigma";
-                bond_parameters = bond_type_parameters[atom_pair][orbital_pair]; 
-            }
-        }
-        else // determine single bond parameters (ss, sp)
+        else // determine bond parameters for ss/sp orbitals
         {
             bond_parameters = bond_type_parameters[atom_pair][orbital_pair];
         }
@@ -310,18 +309,24 @@ class Extended_Huckel
         */
 
         // determine if orbitals share a bond
+        
         std::tuple<bool, int> bonded = are_atoms_bonded(u,v);
+        /*
         if(std::get<0>(bonded) == false)
         {
             return 0.0;
         }
-
+        */
         double bond_order = std::get<1>(bonded);
         std::pair<double, double> bond_parameters = determine_bond_parameters(u,v,bond_order);
         double beta = bond_parameters.first;
         double lambda = bond_parameters.second;
-        double R_AB = arma::norm(u.coordinates - v.coordinates); // euclidian distance between atoms
-        
+        //std::cout << "beta: " << beta << std::endl;
+        //std::cout << "lambda: " << lambda << std::endl;
+        double R_AB = arma::norm(u.coordinates - v.coordinates); // euclidian distance between atoms in angstrom 
+        //std::cout << "R_AB: " << R_AB  << std::endl;
+        //std::cout << "first term: " << beta * std::pow((R_AB/bohr_radius), 0.5) << std::endl;
+        //std::cout << "second term: " << std::exp(-lambda * std::pow(R_AB,2) / std::pow(bohr_radius,2)) << std::endl;
         return beta * std::pow((R_AB/bohr_radius), 0.5) * std::exp(-lambda * std::pow(R_AB,2) / std::pow(bohr_radius,2));
         
     }
@@ -437,6 +442,8 @@ class Extended_Huckel
     {
         double orbital_energy = energy_summation();
         double repulsion = repulsion_energy();
+        //std::cout << "orbital energy: " << orbital_energy << std::endl;
+        //std::cout << "repulsion: " << repulsion << std::endl;
         return orbital_energy + repulsion;
     }
 
@@ -557,10 +564,12 @@ int main(int argc, char** argv)
     std::vector<std::vector<double>>  compound_data = read_json(filepath);
     Extended_Huckel compound(compound_data);
 
+    std::cout << "H matrix:\n" << compound.H() << std::endl;
     std::cout << "enthalpy: " << compound.enthalpy() << std::endl;
     //std::cout << "Heat summ: " << compound.experimental_heat_summ() << std::endl;
     //std::cout << "E isolation sum: " << compound.E_isol_summ() << std::endl;
-    //std::cout << "total energy: " << compound.total_energy() << std::endl;
+    //std::cout << "TOTAL ENERGY:" << std::endl;
+    std::cout << "total energy: " << compound.total_energy() << std::endl;
     
     /*
     // TEST G_AB
@@ -574,8 +583,8 @@ int main(int argc, char** argv)
 
     // TESTS two center off diagonal
     /*
-    atomic_orbital u = compound.atomic_orbitals[4];
-    atomic_orbital v = compound.atomic_orbitals[10];
+    atomic_orbital u = compound.atomic_orbitals[1];
+    atomic_orbital v = compound.atomic_orbitals[4];
     double bohr_radius = 0.52917;
     std::cout<< "u atomic coordinates:\n " << u.coordinates << std::endl;
     std::cout<< "v atomic coordinates:\n " << v.coordinates << std::endl;
@@ -584,8 +593,8 @@ int main(int argc, char** argv)
 
     // TESTS for determine_bonda_parameters
     /*
-    atomic_orbital u = compound.atomic_orbitals[1];
-    atomic_orbital v = compound.atomic_orbitals[5];
+    atomic_orbital u = compound.atomic_orbitals[0];
+    atomic_orbital v = compound.atomic_orbitals[9];
 
     std::cout << "u atom id: " << u.atom_id << std::endl;
     std::cout << "u atom: " << u.atom << std::endl;
@@ -604,15 +613,17 @@ int main(int argc, char** argv)
     std::pair<double, double> bond_paramaters = compound.determine_bond_parameters(u,v,2.0);
     std::cout << "beta: " << bond_paramaters.first << std::endl;
     std::cout << "lambda: " << bond_paramaters.second << std::endl;
+    */
     
-    */
 
+    
+    // TESTS for pp_bond_type
     /*
-    // TESTS for pi_bond_type
     atomic_orbital u = compound.atomic_orbitals[1];
-    atomic_orbital v = compound.atomic_orbitals[5];
-    std::cout << compound.pi_bond_type(u,v) << std::endl;
+    atomic_orbital v = compound.atomic_orbitals[9];
+    std::cout << compound.pp_bond_type(u,v) << std::endl;
     */
+    
 
     // TESTS for are_atoms_bonded 
     /*

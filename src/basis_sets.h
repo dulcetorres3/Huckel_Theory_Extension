@@ -58,4 +58,10 @@ std::map<int, std::string> orbital_axis_map = {
     {3, "z"}
 };
 
+std::map<std::string, int> orbital_index = {
+    {"x", 0},
+    {"y", 1},
+    {"z", 2}
+};
+
 
