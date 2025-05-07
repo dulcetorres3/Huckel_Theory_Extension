@@ -120,7 +120,7 @@ class Extended_Huckel
     std::map<double, std::vector<bond>> bond_map; // contains the a vector of all all bond information (atom pair and bond order) corresponding to an atom id
     //std::vector<atomic_orbital> atomic_orbitals;
     double bohr_radius = 0.52917; // units of angstrom
-    double k_cal_conversion = 23.06054; // coverts eV to kcal/mol
+    double k_cal_conversion = 23.06054; // converts eV to kcal/mol
     int total_electrons = 0;
     std::vector<atom_info> atom_vec;
     
@@ -150,6 +150,10 @@ class Extended_Huckel
             arma::vec coordinates = {x_coords[i], y_coords[i], z_coords[i]};
 
             // update total_electrons
+            if(atomic_number==6.0)
+            {
+                atomic_number=4.0; // accounts for valence C electrons
+            }
             total_electrons+= atomic_number;
 
             // update atom_vec 
@@ -444,7 +448,8 @@ class Extended_Huckel
         double repulsion = repulsion_energy();
         //std::cout << "orbital energy: " << orbital_energy << std::endl;
         //std::cout << "repulsion: " << repulsion << std::endl;
-        return orbital_energy + repulsion;
+        //std::cout << "total energy: " << orbital_energy + repulsion << std::endl;
+        return (orbital_energy + repulsion) * k_cal_conversion;
     }
 
     double E_isol_summ()
@@ -490,6 +495,11 @@ class Extended_Huckel
         double energy = k_cal_conversion * total_energy();
         double E_isol = k_cal_conversion * E_isol_summ();
         double heat_formation = experimental_heat_summ();
+        //std::cout << "energy (ev): " << total_energy() << std::endl;
+        //std::cout << "energy (kcal/mol): " << energy << std::endl;
+        //std::cout << "isolation energy (kcal/mol): " << E_isol << std::endl;
+        //std::cout << "heat formation (kcal/mol): " << heat_formation << std::endl;
+        //std::cout << "enthalpy(kcal/mol): " << energy - E_isol + heat_formation << std::endl;
         return energy - E_isol + heat_formation;
     }
 };
@@ -563,13 +573,48 @@ int main(int argc, char** argv)
     // Read JSON file
     std::vector<std::vector<double>>  compound_data = read_json(filepath);
     Extended_Huckel compound(compound_data);
+    compound.enthalpy();
+    // hydrogen data (pubchem did not have downloadable 3d coordinates for hydrogen)
+    
+    std::vector<double> atomic_numbers = {1, 1};
+    std::vector<double> x_coords = {0.0, 1.3984};
+    std::vector<double> y_coords = {0.0, 0.0};
+    std::vector<double> z_coords = {0.0, 0.0};
+    std::vector<double> aid1 = {1.0};
+    std::vector<double> aid2 = {2.0};
+    std::vector<double> bond_orders = {1.0};
+    std::vector<std::vector<double>> hydrogen_data = {atomic_numbers, x_coords, y_coords, z_coords, aid1, aid2, bond_orders};
+    Extended_Huckel diatomic_hydrogen(hydrogen_data);
+    
+    /*
+    double hydrogen_enthalpy= diatomic_hydrogen.enthalpy();
+    double enthalpy = compound.enthalpy() - hydrogen_enthalpy;
+    std::cout << "enthalpy: " << enthalpy << std::endl;
+    */
 
-    std::cout << "H matrix:\n" << compound.H() << std::endl;
-    std::cout << "enthalpy: " << compound.enthalpy() << std::endl;
+    std::string benzene_filepath = "data/benzene.json";
+    std::vector<std::vector<double>>  benzene_data = read_json(benzene_filepath);
+    Extended_Huckel benzene(benzene_data);
+
+    double benzene_energy= benzene.total_energy();
+    double energy = compound.total_energy() - benzene_energy;
+    std::cout << "energy: " << energy << std::endl;
+    
+
+    /*
+    std::string hydrogen_filepath = "data/ethane.json";
+    std::vector<std::vector<double>>  hydrogen_data = read_json(hydrogen_filepath);
+    Extended_Huckel diatomic_hydrogen(hydrogen_data);
+    double hydrogen_enthalpy = diatomic_hydrogen.enthalpy();
+    */
+
+    //std::cout << "H matrix:\n" << compound.H() << std::endl;
+    //compound.total_energy();
+    //std::cout << "enthalpy: " << compound.enthalpy() << std::endl;
     //std::cout << "Heat summ: " << compound.experimental_heat_summ() << std::endl;
     //std::cout << "E isolation sum: " << compound.E_isol_summ() << std::endl;
     //std::cout << "TOTAL ENERGY:" << std::endl;
-    std::cout << "total energy: " << compound.total_energy() << std::endl;
+    //std::cout << "total energy: " << compound.total_energy() << std::endl;
     
     /*
     // TEST G_AB
