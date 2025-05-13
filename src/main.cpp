@@ -586,11 +586,11 @@ int main(int argc, char** argv)
     std::vector<std::vector<double>> hydrogen_data = {atomic_numbers, x_coords, y_coords, z_coords, aid1, aid2, bond_orders};
     Extended_Huckel diatomic_hydrogen(hydrogen_data);
     
-    /*
+    
     double hydrogen_enthalpy= diatomic_hydrogen.enthalpy();
     double enthalpy = compound.enthalpy() - hydrogen_enthalpy;
-    std::cout << "enthalpy: " << enthalpy << std::endl;
-    */
+    std::cout << "Enthalpy with respect to diatomic hydrogen: " << enthalpy << std::endl;
+    
 
     std::string benzene_filepath = "data/benzene.json";
     std::vector<std::vector<double>>  benzene_data = read_json(benzene_filepath);
@@ -598,7 +598,7 @@ int main(int argc, char** argv)
 
     double benzene_energy= benzene.total_energy();
     double energy = compound.total_energy() - benzene_energy;
-    std::cout << "energy: " << energy << std::endl;
+    std::cout << "Energy with respect to benzene: " << energy << std::endl;
     
 
     /*
