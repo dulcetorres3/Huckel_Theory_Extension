@@ -5,7 +5,7 @@ The objective of this project was to apply the MTB/2 method to calculate the tot
 # Build environment 
 ./build_image.sh
 
-# Set up environmnt
+# Set up environment
 ./interactive.sh
 
 # Compile executable 
