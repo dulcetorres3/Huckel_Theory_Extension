@@ -117,9 +117,9 @@ class Extended_Huckel
 {
     private:
     int N;
-    std::map<double, std::vector<bond>> bond_map; // contains the a vector of all all bond information (atom pair and bond order) corresponding to an atom id
+    std::map<double, std::vector<bond>> bond_map; // returns vector of all bond information (atom pair and bond order) corresponding to an atom id
     //std::vector<atomic_orbital> atomic_orbitals;
-    double bohr_radius = 0.52917; // units of angstrom
+    double bohr_radius = 0.52917; // units in angstrom
     double k_cal_conversion = 23.06054; // converts eV to kcal/mol
     int total_electrons = 0;
     std::vector<atom_info> atom_vec;
@@ -196,7 +196,6 @@ class Extended_Huckel
         * @param v A p orbital
         * @return std::string pi bond type (sigma, pi, none-- if no overlap occurs between p orbitals) 
         * 
-        * 
         */
         std::string u_orbital_axis = u.orbital_axis;
         std::string v_orbital_axis = v.orbital_axis;
@@ -241,7 +240,6 @@ class Extended_Huckel
         * @param v A p orbital
         * @return std::tuple<bool, double> bool (true if a bond occurs), double (bond order -- 0.0 if no bond occurs)
         * 
-        * 
         */
 
         double A_atom_id = u.atom_id;
@@ -272,7 +270,6 @@ class Extended_Huckel
         * @param v A p orbital
         * @param bond_order the bond order shared between atoms of orbital u and orbital v  
         * @return std::tuple<double, double> containing the lambda and beta values 
-        * 
         * 
         */
 
@@ -309,7 +306,6 @@ class Extended_Huckel
         * @param v A p orbital 
         * @return  two-center off-diagonal H value
         * 
-        * 
         */
 
         // determine if orbitals share a bond
@@ -325,12 +321,7 @@ class Extended_Huckel
         std::pair<double, double> bond_parameters = determine_bond_parameters(u,v,bond_order);
         double beta = bond_parameters.first;
         double lambda = bond_parameters.second;
-        //std::cout << "beta: " << beta << std::endl;
-        //std::cout << "lambda: " << lambda << std::endl;
         double R_AB = arma::norm(u.coordinates - v.coordinates); // euclidian distance between atoms in angstrom 
-        //std::cout << "R_AB: " << R_AB  << std::endl;
-        //std::cout << "first term: " << beta * std::pow((R_AB/bohr_radius), 0.5) << std::endl;
-        //std::cout << "second term: " << std::exp(-lambda * std::pow(R_AB,2) / std::pow(bohr_radius,2)) << std::endl;
         return beta * std::pow((R_AB/bohr_radius), 0.5) * std::exp(-lambda * std::pow(R_AB,2) / std::pow(bohr_radius,2));
         
     }
@@ -338,6 +329,12 @@ class Extended_Huckel
 
     arma::mat H()
     {
+        /**
+        * @brief Calculates the hamiltonian matrix the two-center off-diagonal H values  between the given orbitals 
+        * 
+        * @return  (armadillo matrix) Hamiltonian matrix
+        * 
+        */
         arma::mat H_matrix(N,N);
 
         for(int u=0; u < N; u++)
@@ -374,6 +371,13 @@ class Extended_Huckel
 
     double occupation_level(int level)
     {
+        /**
+        * @brief Determines the number of electrons occupying a given energy level
+        * 
+        * @param level A MO energy level
+        * @return  (double) the number of electrons in an MO energy level
+        * 
+        */
         int double_occupied_threshold = total_electrons / 2;
 
         if(level < double_occupied_threshold)
@@ -391,6 +395,12 @@ class Extended_Huckel
 
     double energy_summation()
     {
+        /**
+        * @brief Determines the orbital energy (eigenvalue summation)
+        * 
+        * @return orbital energy
+        * 
+        */
         arma::mat one_electron_hamiltonian = H();
 
         arma::mat C;
@@ -412,19 +422,34 @@ class Extended_Huckel
 
     double G_AB(std::string A, std::string B, double R_AB)
     {
+        /**
+        * @brief Determines short range potential between two atoms
+        * 
+        * @param A atom that != B
+        * * @param B atom that != A
+        * @return short range potential for atom pair
+        * 
+        */
         std::string atom_pair = A + B;
-        std::vector<double> parameters = atom_bond_type_parameters[atom_pair]; // alpha, gamma, omerga, r
-        double alpha = parameters[0];
-        double gamma = parameters[1];
-        double omega = parameters[2];
-        double r = parameters[3];
+        std::vector<double> parameters = atom_bond_type_parameters[atom_pair]; 
+        double alpha = parameters[0]; //alpha
+        double gamma = parameters[1]; // gamma
+        double omega = parameters[2]; // omega
+        double r = parameters[3]; // r
 
         return (gamma * std::exp(-alpha*R_AB)) + (omega * std::exp(-6 * std::pow(R_AB-r,2)));
     }
 
     double repulsion_energy()
     {
+        /**
+        * @brief Determines repulsion energy by summing short range potentials between atom pairs
+        * 
+        * @return  (double) repulsion energy
+        * 
+        */
         double summation = 0.0;
+        // loop through atom pairs
         for(int i=0; i < atom_vec.size(); i++)
         {
             for(int j= i+1; j < atom_vec.size(); j++)
@@ -434,6 +459,7 @@ class Extended_Huckel
 
                 std::string A = A_info.atom;
                 std::string B = B_info.atom;
+                // Calculate short range potential 
                 double R_AB = arma::norm(A_info.coordinates - B_info.coordinates);
             
                 summation += G_AB(A, B, R_AB);
@@ -444,16 +470,25 @@ class Extended_Huckel
 
     double total_energy()
     {
+        /**
+        * @brief Calculates sum of repulsion and orbital energy
+        * 
+        * @return total energy (eV)
+        * 
+        */
         double orbital_energy = energy_summation();
         double repulsion = repulsion_energy();
-        //std::cout << "orbital energy: " << orbital_energy << std::endl;
-        //std::cout << "repulsion: " << repulsion << std::endl;
-        //std::cout << "total energy: " << orbital_energy + repulsion << std::endl;
         return (orbital_energy + repulsion) * k_cal_conversion;
     }
 
     double E_isol_summ()
     {
+        /**
+        * @brief Calculates isolation energy
+        * 
+        * @return isolation energy (eV)
+        * 
+        */
         double sum = 0.0;
 
         for(int i =0; i < atom_vec.size(); i++)
@@ -461,11 +496,11 @@ class Extended_Huckel
             atom_info A_info = atom_vec[i];
             std::string A = A_info.atom;
             std::vector<double> electrons = valence_electrons[A];
-            double n_s = electrons[0];
-            double n_p = electrons[1];
+            double n_s = electrons[0]; // valence s electrons
+            double n_p = electrons[1]; // valence p electrons
 
-            double U_s = atomic_parameters[A]["s"];
-            double U_p = 0.0;
+            double U_s = atomic_parameters[A]["s"]; // s ionization energy
+            double U_p = 0.0; // p ionization energy
             if(A == "C")
             {
                 U_p = atomic_parameters[A]["p"];
@@ -480,6 +515,13 @@ class Extended_Huckel
 
     double experimental_heat_summ()
     {
+        /**
+        * @brief Calculates experimental heat sum
+        * 
+        * @return experimental heat sum (kcal/mol)
+        * 
+        */
+
         double summ=0.0;
         for(int i =0; i < atom_vec.size(); i++)
         {
@@ -492,14 +534,16 @@ class Extended_Huckel
 
     double enthalpy()
     {
+        /**
+        * @brief Calculates enthalpy from orbital energy, isolation energy, and experimental heat sum
+        * 
+        * @return enthalpy (kcal/mol)
+        * 
+        */
         double energy = k_cal_conversion * total_energy();
         double E_isol = k_cal_conversion * E_isol_summ();
         double heat_formation = experimental_heat_summ();
-        //std::cout << "energy (ev): " << total_energy() << std::endl;
-        //std::cout << "energy (kcal/mol): " << energy << std::endl;
-        //std::cout << "isolation energy (kcal/mol): " << E_isol << std::endl;
-        //std::cout << "heat formation (kcal/mol): " << heat_formation << std::endl;
-        //std::cout << "enthalpy(kcal/mol): " << energy - E_isol + heat_formation << std::endl;
+
         return energy - E_isol + heat_formation;
     }
 };
@@ -600,120 +644,6 @@ int main(int argc, char** argv)
     double energy = compound.total_energy() - benzene_energy;
     std::cout << "Energy with respect to benzene: " << energy << std::endl;
     
-
-    /*
-    std::string hydrogen_filepath = "data/ethane.json";
-    std::vector<std::vector<double>>  hydrogen_data = read_json(hydrogen_filepath);
-    Extended_Huckel diatomic_hydrogen(hydrogen_data);
-    double hydrogen_enthalpy = diatomic_hydrogen.enthalpy();
-    */
-
-    //std::cout << "H matrix:\n" << compound.H() << std::endl;
-    //compound.total_energy();
-    //std::cout << "enthalpy: " << compound.enthalpy() << std::endl;
-    //std::cout << "Heat summ: " << compound.experimental_heat_summ() << std::endl;
-    //std::cout << "E isolation sum: " << compound.E_isol_summ() << std::endl;
-    //std::cout << "TOTAL ENERGY:" << std::endl;
-    //std::cout << "total energy: " << compound.total_energy() << std::endl;
-    
-    /*
-    // TEST G_AB
-    std::cout << compound.G_AB("H", "C", 1.0) << std::endl;
-    */
-
-    /*
-    // TEST occupation level 
-    std::cout << compound.occupation_level(0) << std::endl;
-    */
-
-    // TESTS two center off diagonal
-    /*
-    atomic_orbital u = compound.atomic_orbitals[1];
-    atomic_orbital v = compound.atomic_orbitals[4];
-    double bohr_radius = 0.52917;
-    std::cout<< "u atomic coordinates:\n " << u.coordinates << std::endl;
-    std::cout<< "v atomic coordinates:\n " << v.coordinates << std::endl;
-    std::cout << "two center off diagonal: " << compound.two_center_off_diagonal(u,v) << std::endl;
-    */
-
-    // TESTS for determine_bonda_parameters
-    /*
-    atomic_orbital u = compound.atomic_orbitals[0];
-    atomic_orbital v = compound.atomic_orbitals[9];
-
-    std::cout << "u atom id: " << u.atom_id << std::endl;
-    std::cout << "u atom: " << u.atom << std::endl;
-    std::cout << "u orbital type: " << u.orbital_type << std::endl;
-    std::cout << "u orital axis: " << u.orbital_axis << std::endl;
-    std::cout << "u atomic number: " << u.atomic_number << std::endl;
-    std::cout << "u coordinates:\n" << u.coordinates << std::endl;
-
-    std::cout << "v atom id: " << v.atom_id << std::endl;
-    std::cout << "v atom: " << v.atom << std::endl;
-    std::cout << "v orbital type: " << v.orbital_type << std::endl;
-    std::cout << "v orital axis: " << v.orbital_axis << std::endl;
-    std::cout << "v atomic number: " << v.atomic_number << std::endl;
-    std::cout << "v coordinates:\n" << v.coordinates << std::endl;
-
-    std::pair<double, double> bond_paramaters = compound.determine_bond_parameters(u,v,2.0);
-    std::cout << "beta: " << bond_paramaters.first << std::endl;
-    std::cout << "lambda: " << bond_paramaters.second << std::endl;
-    */
-    
-
-    
-    // TESTS for pp_bond_type
-    /*
-    atomic_orbital u = compound.atomic_orbitals[1];
-    atomic_orbital v = compound.atomic_orbitals[9];
-    std::cout << compound.pp_bond_type(u,v) << std::endl;
-    */
-    
-
-    // TESTS for are_atoms_bonded 
-    /*
-    atomic_orbital u = compound.atomic_orbitals[5];
-    atomic_orbital v = compound.atomic_orbitals[10];
-    std::tuple<bool, double> bonded = compound.are_atoms_bonded(u,v);
-    std::cout << "bonded: " << std::get<0>(bonded) << std::endl;
-    std::cout << "bond order: " << std::get<1>(bonded) << std::endl;
-    */
-
-    // TESTS FOR CONTRUCTOR-- atomic_orbitals attribute
-    
-    /*
-    std::vector<atomic_orbital> atomic_orbitals = compound.atomic_orbitals;
-    for(const auto& atomic_orbital : atomic_orbitals)
-    {
-        std::cout << "NEW ORBITAL: " << std::endl;
-        std::cout << "atom id: " << atomic_orbital.atom_id << std::endl;
-        std::cout << "atom: " << atomic_orbital.atom << std::endl;
-        std::cout << "orbital type: " << atomic_orbital.orbital_type << std::endl;
-        std::cout << "orital axis: " << atomic_orbital.orbital_axis << std::endl;
-        std::cout << "atomic number: " << atomic_orbital.atomic_number << std::endl;
-        std::cout << "coordinates:\n" << atomic_orbital.coordinates << std::endl;
-    }
-    */
-    
-
-    // TESTS FOR create_atomic_orbitals
-    /*
-    arma::vec coordinates = {0.0, 0.0, 0.0};
-    std::vector<atomic_orbital> my_orbitals = create_atomic_orbitals(1, "H", 0.0, coordinates, true);
-    for (const auto& atomic_orbital : my_orbitals) {
-        std::cout << "NEW ORBITAL: " << std::endl;
-        std::cout << "atom id: " << atomic_orbital.atom_id << std::endl;
-        std::cout << "atom: " << atomic_orbital.atom << std::endl;
-        std::cout << "orbital type: " << atomic_orbital.orbital_type << std::endl;
-        std::cout << "orital axis: " << atomic_orbital.orbital_axis << std::endl;
-        std::cout << "atomic number: " << atomic_orbital.atomic_number << std::endl;
-        std::cout << "coordinates:\n" << atomic_orbital.coordinates << std::endl;
-
-    }
-    */
-
-
-
    
     return 0;
 }
